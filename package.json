@@ -1,0 +1,31 @@
+{
+  "name": "tree-sitter-vento",
+  "version": "0.20.0",
+  "description": "Vento grammar for tree-sitter",
+  "main": "bindings/node",
+  "keywords": [
+    "parser",
+    "json"
+  ],
+  "author": "Matthew Taylor",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.14.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.20.0"
+  },
+  "scripts": {
+    "test": "tree-sitter test"
+  },
+  "tree-sitter": [
+    {
+      "scope": "text.html.vto",
+      "file-types": [
+        "vto"
+      ],
+      "injections": "queries/injections.scm",
+      "injection-regex": "vto"
+    }
+  ]
+}
