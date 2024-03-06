@@ -2,41 +2,38 @@ module.exports = grammar({
   name: 'vento',
   externals: $ => [
     $.code,
-    $.keyword,
   ],
   rules: {
     template: $ => repeat(choice(
       $.tag,
-      alias($.comment_tag, $.tag),
       $.content
     )),
 
     content: $ => prec.right(/[^(\{\{)]+/),
 
-    keyword: $ => /[a-zA-Z0-9\(\)\.]+/,
-    close_keyword: $ => /\/[a-zA-Z]+/,
-
-    codeSnippet: $ => /[^\/][\s]+/,
-
-    _expression: $ => choice(
-      // "Solo keywords" aren't a valid expression,
-      // but we need to handle them here to avoid
-      // a conflict with the the sequence of a keyword
-      // and a code block.
-      alias(choice($.keyword, $.codeSnippet), $.code),
-      alias($.close_keyword, $.keyword),
-      seq(
-        prec.left(1, $.keyword), 
-        $.code
-      ),
-    ),
-
     tag: $ => seq(
       choice("{{", "{{-"),
-      $._expression,
+      optional($._expression),
       optional($.filter),
       choice("}}", "-}}")
     ),
+
+    _expression: $ => choice(
+      // "Solo keywords" are just code blocks
+      alias($.keyword, $.code),
+      alias($.close_keyword, $.keyword),
+      seq(
+        $.keyword,
+        $.code
+      ),
+      $.comment,
+    ),
+
+    // General rule for keyword tags
+    // It just tries to match the first word in a tag block,
+    // plus any other special characters that might be present
+    keyword: $ => /[a-zA-Z0-9\(\)\.>]+/,
+    close_keyword: $ => /\/[a-zA-Z]+/,
 
     filter: $ => repeat1(seq(
       "|>",
@@ -44,11 +41,5 @@ module.exports = grammar({
     )),
 
     comment: $ => /#[^#]+#/,
-
-    comment_tag: $ => seq(
-      "{{",
-      $.comment,
-      "}}"
-    ),
   }
 });

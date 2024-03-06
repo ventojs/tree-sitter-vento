@@ -43,19 +43,6 @@ bool tree_sitter_vento_external_scanner_scan(
   skip_whitespace(lexer);
 
   if (valid_symbols[CODE]) {
-    // if (iswalpha(lexer->lookahead)) {
-    //   while (iswalpha(lexer->lookahead)) {
-    //     advance(lexer);
-    //   }
-    //
-    //   skip_whitespace(lexer);
-    //
-    //   if (lexer->lookahead != '}') {
-    //     return false;
-    //   }
-    // }
-    //
-    // lexer->mark_end(lexer);
 
     if (lexer->lookahead == '\0' || lexer->lookahead == '/') {
       return false;
@@ -82,8 +69,11 @@ bool tree_sitter_vento_external_scanner_scan(
         depth++;
 
       } else if (lexer->lookahead == '}') {
-        lexer->mark_end(lexer);
         advance(lexer);
+
+        if (depth > 1) {
+          lexer->mark_end(lexer);
+        }
         depth--;
 
       } else if (lexer->lookahead == '|') {

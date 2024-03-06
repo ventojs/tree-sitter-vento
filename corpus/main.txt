@@ -32,7 +32,6 @@ Variables
     (keyword))
   (content))
 
-
 ====================
 Comments
 ====================
@@ -184,4 +183,40 @@ Expressions
   (content)
   (tag
     (keyword))
+  (content))
+
+====================
+Expressions 2
+====================
+
+{{ if test }}
+{{}}
+{{ }}
+{{> javascriptCode() }}
+{{-> javascriptCode() }}
+{{> javascriptCode() -}}
+
+---
+
+(template
+  (content)
+  (tag
+    (keyword)
+    (code))
+  (content)
+  (tag)
+  (content)
+  (tag)
+  (content)
+  (tag
+    (keyword)
+    (code))
+  (content)
+  (tag
+    (keyword)
+    (code))
+  (content)
+  (tag
+    (keyword)
+    (code))
   (content))

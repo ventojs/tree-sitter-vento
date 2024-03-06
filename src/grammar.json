@@ -11,15 +11,6 @@
             "name": "tag"
           },
           {
-            "type": "ALIAS",
-            "content": {
-              "type": "SYMBOL",
-              "name": "comment_tag"
-            },
-            "named": true,
-            "value": "tag"
-          },
-          {
             "type": "SYMBOL",
             "name": "content"
           }
@@ -33,67 +24,6 @@
         "type": "PATTERN",
         "value": "[^(\\{\\{)]+"
       }
-    },
-    "keyword": {
-      "type": "PATTERN",
-      "value": "[a-zA-Z0-9\\(\\)\\.]+"
-    },
-    "close_keyword": {
-      "type": "PATTERN",
-      "value": "\\/[a-zA-Z]+"
-    },
-    "codeSnippet": {
-      "type": "PATTERN",
-      "value": "[^\\/][\\s]+"
-    },
-    "_expression": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "keyword"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "codeSnippet"
-              }
-            ]
-          },
-          "named": true,
-          "value": "code"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "close_keyword"
-          },
-          "named": true,
-          "value": "keyword"
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "PREC_LEFT",
-              "value": 1,
-              "content": {
-                "type": "SYMBOL",
-                "name": "keyword"
-              }
-            },
-            {
-              "type": "SYMBOL",
-              "name": "code"
-            }
-          ]
-        }
-      ]
     },
     "tag": {
       "type": "SEQ",
@@ -112,8 +42,16 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_expression"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_expression"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "CHOICE",
@@ -142,6 +80,54 @@
         }
       ]
     },
+    "_expression": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "keyword"
+          },
+          "named": true,
+          "value": "code"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "close_keyword"
+          },
+          "named": true,
+          "value": "keyword"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "keyword"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "code"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "comment"
+        }
+      ]
+    },
+    "keyword": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z0-9\\(\\)\\.>]+"
+    },
+    "close_keyword": {
+      "type": "PATTERN",
+      "value": "\\/[a-zA-Z]+"
+    },
     "filter": {
       "type": "REPEAT1",
       "content": {
@@ -161,23 +147,6 @@
     "comment": {
       "type": "PATTERN",
       "value": "#[^#]+#"
-    },
-    "comment_tag": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "{{"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "comment"
-        },
-        {
-          "type": "STRING",
-          "value": "}}"
-        }
-      ]
     }
   },
   "extras": [
@@ -192,10 +161,6 @@
     {
       "type": "SYMBOL",
       "name": "code"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "keyword"
     }
   ],
   "inline": [],
