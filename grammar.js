@@ -13,9 +13,10 @@ module.exports = grammar({
 
     content: $ => prec.right(/[^(\{\{)]+/),
 
-    keyword: $ => /[^\/][a-zA-Z]+/,
-    codeSnippet: $ => /[^\/][\s]+/,
+    keyword: $ => /[a-zA-Z0-9\(\)\.]+/,
     close_keyword: $ => /\/[a-zA-Z]+/,
+
+    codeSnippet: $ => /[^\/][\s]+/,
 
     _expression: $ => choice(
       // "Solo keywords" aren't a valid expression,

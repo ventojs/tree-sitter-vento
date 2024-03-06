@@ -36,15 +36,15 @@
     },
     "keyword": {
       "type": "PATTERN",
-      "value": "[^\\/][a-zA-Z]+"
-    },
-    "codeSnippet": {
-      "type": "PATTERN",
-      "value": "[^\\/][\\s]+"
+      "value": "[a-zA-Z0-9\\(\\)\\.]+"
     },
     "close_keyword": {
       "type": "PATTERN",
       "value": "\\/[a-zA-Z]+"
+    },
+    "codeSnippet": {
+      "type": "PATTERN",
+      "value": "[^\\/][\\s]+"
     },
     "_expression": {
       "type": "CHOICE",
@@ -201,3 +201,4 @@
   "inline": [],
   "supertypes": []
 }
+

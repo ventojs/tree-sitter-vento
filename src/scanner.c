@@ -61,6 +61,10 @@ bool tree_sitter_vento_external_scanner_scan(
       return false;
     }
 
+    if (lexer->lookahead == '-') {
+      return false;
+    }
+
     if (lexer->lookahead == '}') {
       return false;
     }
@@ -87,10 +91,17 @@ bool tree_sitter_vento_external_scanner_scan(
         if (lexer->lookahead == '}') {
           advance(lexer);
           depth--;
+        }
+      } else if (lexer->lookahead == '-') {
+        lexer->mark_end(lexer);
+        advance(lexer);
 
-          if (depth == 0) {
-            lexer->result_symbol = CODE;
-            return true;
+        if (lexer->lookahead == '}') {
+          advance(lexer);
+
+          if (lexer->lookahead == '}') {
+            advance(lexer);
+            depth--;
           }
         }
       } else {
@@ -99,6 +110,11 @@ bool tree_sitter_vento_external_scanner_scan(
         if (!skip) {
           lexer->mark_end(lexer);
         }
+      }
+
+      if (depth == 0) {
+        lexer->result_symbol = CODE;
+        return true;
       }
     }
 
