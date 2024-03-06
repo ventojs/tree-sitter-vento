@@ -18,21 +18,9 @@ Directives
 
 ---
 
-(template
-  (content)
-  (tag (code))
-  (content)
-  (tag (code))
-  (content)
-  (tag (code))
-  (content)
-  (tag (code))
-  (content)
-  (tag (code))
-  (content))
 
 ====================
-Comments please
+Comments
 ====================
 
 <div>
@@ -61,21 +49,37 @@ Comments please
 
 ---
 
+
+====================
+Filters
+====================
+
+{{# This is a comment #}}
+{{# a comment #}}
+{{ test |> hello }}
+{{ test |> hello |> world }}
+
+{{ if }}
+
+---
+
+
+====================
+Expressions
+====================
+{{ asaasfgadgsdgsdgsddlkghsdlkjglskdjglksdjgkljsdlkgjsdlkgj asfjadkfg }}
+{{ soloKeyword }}
+{{    b123()    }}
+{{ /pog }}
+
+
+kjlkfjhkldjfhlkjdfglk
+
+---
+
 (template
-  (content)
   (tag
-    (comment))
-  (content)
-  (tag
-    (comment))
-  (content)
-  (tag
-    (comment))
-  (content)
-  (tag
-    (comment))
-  (content)
-  (tag
+    (keyword)
     (code))
   (content)
   (tag
@@ -83,10 +87,3 @@ Comments please
   (content)
   (tag
     (code))
-  (content)
-  (tag
-    (code))
-  (content)
-  (tag
-    (comment))
-  (content))
