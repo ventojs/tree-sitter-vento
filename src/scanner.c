@@ -79,30 +79,22 @@ bool tree_sitter_vento_external_scanner_scan(
 
       if (lexer->lookahead == '{') {
         advance(lexer);
+        depth++;
 
-        if (lexer->lookahead == '{') {
-          advance(lexer);
-          depth++;
-        }
       } else if (lexer->lookahead == '}') {
         lexer->mark_end(lexer);
         advance(lexer);
+        depth--;
 
-        if (lexer->lookahead == '}') {
-          advance(lexer);
-          depth--;
-        }
-      } else if (lexer->lookahead == '-') {
+      } else if (lexer->lookahead == '|') {
         lexer->mark_end(lexer);
         advance(lexer);
 
-        if (lexer->lookahead == '}') {
+        if (lexer->lookahead == '>') {
           advance(lexer);
 
-          if (lexer->lookahead == '}') {
-            advance(lexer);
-            depth--;
-          }
+          lexer->result_symbol = CODE;
+          return true;
         }
       } else {
         const bool skip = iswspace(lexer->lookahead) || is_trim_marker(lexer->lookahead);

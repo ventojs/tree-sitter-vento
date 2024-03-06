@@ -1,8 +1,18 @@
-(comment_tag) @comment @spell
+(comment) @comment @spell
 
-(body
+[
+  "{{"
+  "{{-"
+  "}}"
+  "-}}"
+] @tag
+
+[
+  "|>"
+] @operator
+
+(keyword) @keyword
+
+(tag
   (keyword) @keyword
   (code))
-
-(body
-  (keyword) @keyword)
