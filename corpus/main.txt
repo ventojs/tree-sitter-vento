@@ -154,6 +154,7 @@ Expressions
     (code))
   (content)
   (tag
+    (keyword)
     (code))
   (content)
   (tag

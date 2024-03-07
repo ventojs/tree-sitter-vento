@@ -32,7 +32,7 @@ module.exports = grammar({
     // General rule for keyword tags
     // It just tries to match the first word in a tag block,
     // plus any other special characters that might be present
-    keyword: $ => /[a-zA-Z0-9\(\)\.>]+/,
+    keyword: $ => /[a-zA-Z>]+/,
     close_keyword: $ => /\/[a-zA-Z]+/,
 
     filter: $ => repeat1(seq(
