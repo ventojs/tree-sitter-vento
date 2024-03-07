@@ -8,11 +8,11 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "tag"
+            "name": "content"
           },
           {
             "type": "SYMBOL",
-            "name": "content"
+            "name": "tag"
           }
         ]
       }
@@ -21,8 +21,11 @@
       "type": "PREC_RIGHT",
       "value": 0,
       "content": {
-        "type": "PATTERN",
-        "value": "[^(\\{\\{)]+"
+        "type": "REPEAT1",
+        "content": {
+          "type": "PATTERN",
+          "value": "[^\\{]+|\\{"
+        }
       }
     },
     "tag": {
@@ -198,4 +201,3 @@
   "inline": [],
   "supertypes": []
 }
-

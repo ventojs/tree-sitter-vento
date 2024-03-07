@@ -6,11 +6,11 @@ module.exports = grammar({
   extras: $ => [/\s/],
   rules: {
     template: $ => repeat(choice(
+      $.content,
       $.tag,
-      $.content
     )),
 
-    content: $ => prec.right(/[^(\{\{)]+/),
+    content: () => prec.right(repeat1(/[^\{]+|\{/)),
 
     tag: $ => seq(
       choice("{{", "{{-"),
@@ -31,18 +31,20 @@ module.exports = grammar({
       $.comment,
     ),
 
-    // General rule for keyword tags
-    // It just tries to match the first word in a tag block,
-    // plus any other special characters that might be present
-    keyword: $ => /[a-z>][a-zA-Z]*? |if|for|include|set|import|export|layout|function/,
-    code_snippet: $ => seq(/[a-zA-Z>\.\(\)\!_\?]/, $._code),
-    close_keyword: $ => /\/([a-zA-Z]+|if|for|include|set|import|export|layout|function)/,
-
     filter: $ => repeat1(seq(
       "|>",
       alias($._code, $.code)
     )),
 
-    comment: $ => /#[^#]+#/,
+    // General rule for keyword tags
+    // It just tries to match the first word in a tag block,
+    // plus any other special characters that might be present
+    keyword: () => /[a-z>][a-zA-Z]*? |if|for|include|set|import|export|layout|function/,
+
+    code_snippet: $ => seq(/[a-zA-Z>\.\(\)\!_\?]/, $._code),
+
+    close_keyword: () => /\/([a-zA-Z]+|if|for|include|set|import|export|layout|function)/,
+
+    comment: () => /#[^#]+#/,
   }
 });
