@@ -137,27 +137,6 @@
         }
       ]
     },
-    "keyword": {
-      "type": "PATTERN",
-      "value": "[a-z>][a-zA-Z]*? |if|for|include|set|import|export|layout|function"
-    },
-    "code_snippet": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "PATTERN",
-          "value": "[a-zA-Z>\\.\\(\\)\\!_\\?]"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_code"
-        }
-      ]
-    },
-    "close_keyword": {
-      "type": "PATTERN",
-      "value": "\\/([a-zA-Z]+|if|for|include|set|import|export|layout|function)"
-    },
     "filter": {
       "type": "REPEAT1",
       "content": {
@@ -178,6 +157,27 @@
           }
         ]
       }
+    },
+    "keyword": {
+      "type": "PATTERN",
+      "value": "[a-z>][a-zA-Z]*? |if|for|include|set|import|export|layout|function"
+    },
+    "code_snippet": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[a-zA-Z>\\.\\(\\)\\!_\\?]"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_code"
+        }
+      ]
+    },
+    "close_keyword": {
+      "type": "PATTERN",
+      "value": "\\/([a-zA-Z]+|if|for|include|set|import|export|layout|function)"
     },
     "comment": {
       "type": "PATTERN",
@@ -201,3 +201,4 @@
   "inline": [],
   "supertypes": []
 }
+
