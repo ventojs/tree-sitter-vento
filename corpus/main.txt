@@ -224,3 +224,40 @@ Expressions 2
   (tag
     (code))
   (content))
+
+====================
+Stress Keywords
+====================
+
+{{ if test }}
+{{ code }}
+{{ keyword code }}
+{{ keyword() code }}
+
+{{ Deno }}
+{{ Deno thing }}
+
+---
+
+(template
+  (content)
+  (tag
+    (keyword)
+    (code))
+  (content)
+  (tag
+    (code))
+  (content)
+  (tag
+    (keyword)
+    (code))
+  (content)
+  (tag
+    (code))
+  (content)
+  (tag
+    (code))
+  (content)
+  (tag
+    (code))
+  (content))

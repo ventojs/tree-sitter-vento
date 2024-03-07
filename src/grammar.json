@@ -87,7 +87,7 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
-            "name": "keyword2"
+            "name": "code_snippet"
           },
           "named": true,
           "value": "code"
@@ -138,7 +138,7 @@
       "type": "PATTERN",
       "value": "[a-z>][a-zA-Z]*? |if|for|include|set|import|export|layout|function"
     },
-    "keyword2": {
+    "code_snippet": {
       "type": "SEQ",
       "members": [
         {

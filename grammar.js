@@ -21,7 +21,7 @@ module.exports = grammar({
 
     _expression: $ => choice(
       // "Solo keywords" are just code blocks
-      alias($.keyword2, $.code),
+      alias($.code_snippet, $.code),
       alias($.keyword, $.code),
       alias($.close_keyword, $.keyword),
       seq(
@@ -35,7 +35,7 @@ module.exports = grammar({
     // It just tries to match the first word in a tag block,
     // plus any other special characters that might be present
     keyword: $ => /[a-z>][a-zA-Z]*? |if|for|include|set|import|export|layout|function/,
-    keyword2: $ => seq(/[a-zA-Z>\.\(\)\!_\?]/, $._code),
+    code_snippet: $ => seq(/[a-zA-Z>\.\(\)\!_\?]/, $._code),
     close_keyword: $ => /\/([a-zA-Z]+|if|for|include|set|import|export|layout|function)/,
 
     filter: $ => repeat1(seq(

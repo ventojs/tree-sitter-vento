@@ -23,7 +23,7 @@ enum {
   anon_sym_RBRACE_RBRACE = 4,
   anon_sym_DASH_RBRACE_RBRACE = 5,
   sym_keyword = 6,
-  aux_sym_keyword2_token1 = 7,
+  aux_sym_code_snippet_token1 = 7,
   sym_close_keyword = 8,
   anon_sym_PIPE_GT = 9,
   sym_comment = 10,
@@ -32,7 +32,7 @@ enum {
   sym_content = 13,
   sym_tag = 14,
   sym__expression = 15,
-  sym_keyword2 = 16,
+  sym_code_snippet = 16,
   sym_filter = 17,
   aux_sym_template_repeat1 = 18,
   aux_sym_filter_repeat1 = 19,
@@ -46,7 +46,7 @@ static const char * const ts_symbol_names[] = {
   [anon_sym_RBRACE_RBRACE] = "}}",
   [anon_sym_DASH_RBRACE_RBRACE] = "-}}",
   [sym_keyword] = "keyword",
-  [aux_sym_keyword2_token1] = "keyword2_token1",
+  [aux_sym_code_snippet_token1] = "code_snippet_token1",
   [sym_close_keyword] = "keyword",
   [anon_sym_PIPE_GT] = "|>",
   [sym_comment] = "comment",
@@ -55,7 +55,7 @@ static const char * const ts_symbol_names[] = {
   [sym_content] = "content",
   [sym_tag] = "tag",
   [sym__expression] = "_expression",
-  [sym_keyword2] = "code",
+  [sym_code_snippet] = "code",
   [sym_filter] = "filter",
   [aux_sym_template_repeat1] = "template_repeat1",
   [aux_sym_filter_repeat1] = "filter_repeat1",
@@ -69,7 +69,7 @@ static const TSSymbol ts_symbol_map[] = {
   [anon_sym_RBRACE_RBRACE] = anon_sym_RBRACE_RBRACE,
   [anon_sym_DASH_RBRACE_RBRACE] = anon_sym_DASH_RBRACE_RBRACE,
   [sym_keyword] = sym_keyword,
-  [aux_sym_keyword2_token1] = aux_sym_keyword2_token1,
+  [aux_sym_code_snippet_token1] = aux_sym_code_snippet_token1,
   [sym_close_keyword] = sym_keyword,
   [anon_sym_PIPE_GT] = anon_sym_PIPE_GT,
   [sym_comment] = sym_comment,
@@ -78,7 +78,7 @@ static const TSSymbol ts_symbol_map[] = {
   [sym_content] = sym_content,
   [sym_tag] = sym_tag,
   [sym__expression] = sym__expression,
-  [sym_keyword2] = sym_keyword2,
+  [sym_code_snippet] = sym_code_snippet,
   [sym_filter] = sym_filter,
   [aux_sym_template_repeat1] = aux_sym_template_repeat1,
   [aux_sym_filter_repeat1] = aux_sym_filter_repeat1,
@@ -113,7 +113,7 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = true,
     .named = true,
   },
-  [aux_sym_keyword2_token1] = {
+  [aux_sym_code_snippet_token1] = {
     .visible = false,
     .named = false,
   },
@@ -149,7 +149,7 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = false,
     .named = true,
   },
-  [sym_keyword2] = {
+  [sym_code_snippet] = {
     .visible = true,
     .named = true,
   },
@@ -170,10 +170,10 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
 static const TSSymbol ts_alias_sequences[PRODUCTION_ID_COUNT][MAX_ALIAS_SEQUENCE_LENGTH] = {
   [0] = {0},
   [1] = {
-    [0] = sym_keyword2,
+    [0] = sym_code_snippet,
   },
   [2] = {
-    [1] = sym_keyword2,
+    [1] = sym_code_snippet,
   },
 };
 
@@ -443,24 +443,24 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(20);
       END_STATE();
     case 39:
-      ACCEPT_TOKEN(aux_sym_keyword2_token1);
+      ACCEPT_TOKEN(aux_sym_code_snippet_token1);
       END_STATE();
     case 40:
-      ACCEPT_TOKEN(aux_sym_keyword2_token1);
+      ACCEPT_TOKEN(aux_sym_code_snippet_token1);
       if (lookahead == ' ') ADVANCE(37);
       if (lookahead == 'a') ADVANCE(19);
       if (('A' <= lookahead && lookahead <= 'Z') ||
           ('b' <= lookahead && lookahead <= 'z')) ADVANCE(20);
       END_STATE();
     case 41:
-      ACCEPT_TOKEN(aux_sym_keyword2_token1);
+      ACCEPT_TOKEN(aux_sym_code_snippet_token1);
       if (lookahead == ' ') ADVANCE(37);
       if (lookahead == 'e') ADVANCE(15);
       if (('A' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(20);
       END_STATE();
     case 42:
-      ACCEPT_TOKEN(aux_sym_keyword2_token1);
+      ACCEPT_TOKEN(aux_sym_code_snippet_token1);
       if (lookahead == ' ') ADVANCE(37);
       if (lookahead == 'f') ADVANCE(38);
       if (lookahead == 'm') ADVANCE(12);
@@ -469,7 +469,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(20);
       END_STATE();
     case 43:
-      ACCEPT_TOKEN(aux_sym_keyword2_token1);
+      ACCEPT_TOKEN(aux_sym_code_snippet_token1);
       if (lookahead == ' ') ADVANCE(37);
       if (lookahead == 'o') ADVANCE(13);
       if (lookahead == 'u') ADVANCE(8);
@@ -477,14 +477,14 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(20);
       END_STATE();
     case 44:
-      ACCEPT_TOKEN(aux_sym_keyword2_token1);
+      ACCEPT_TOKEN(aux_sym_code_snippet_token1);
       if (lookahead == ' ') ADVANCE(37);
       if (lookahead == 'x') ADVANCE(12);
       if (('A' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(20);
       END_STATE();
     case 45:
-      ACCEPT_TOKEN(aux_sym_keyword2_token1);
+      ACCEPT_TOKEN(aux_sym_code_snippet_token1);
       if (lookahead == ' ') ADVANCE(37);
       if (('A' <= lookahead && lookahead <= 'Z') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(20);
@@ -699,7 +699,7 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_RBRACE_RBRACE] = ACTIONS(1),
     [anon_sym_DASH_RBRACE_RBRACE] = ACTIONS(1),
     [sym_keyword] = ACTIONS(1),
-    [aux_sym_keyword2_token1] = ACTIONS(1),
+    [aux_sym_code_snippet_token1] = ACTIONS(1),
     [sym_close_keyword] = ACTIONS(1),
     [anon_sym_PIPE_GT] = ACTIONS(1),
     [sym_comment] = ACTIONS(1),
@@ -717,13 +717,13 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
   },
   [2] = {
     [sym__expression] = STATE(5),
-    [sym_keyword2] = STATE(13),
+    [sym_code_snippet] = STATE(13),
     [sym_filter] = STATE(17),
     [aux_sym_filter_repeat1] = STATE(9),
     [anon_sym_RBRACE_RBRACE] = ACTIONS(9),
     [anon_sym_DASH_RBRACE_RBRACE] = ACTIONS(9),
     [sym_keyword] = ACTIONS(11),
-    [aux_sym_keyword2_token1] = ACTIONS(13),
+    [aux_sym_code_snippet_token1] = ACTIONS(13),
     [sym_close_keyword] = ACTIONS(15),
     [anon_sym_PIPE_GT] = ACTIONS(17),
     [sym_comment] = ACTIONS(15),
@@ -907,7 +907,7 @@ static const TSParseActionEntry ts_parse_actions[] = {
   [54] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_tag, 4),
   [56] = {.entry = {.count = 1, .reusable = false}}, REDUCE(sym_tag, 4),
   [58] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym__expression, 2, .production_id = 2),
-  [60] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_keyword2, 2),
+  [60] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_code_snippet, 2),
   [62] = {.entry = {.count = 1, .reusable = true}}, REDUCE(aux_sym_filter_repeat1, 2, .production_id = 2),
   [64] = {.entry = {.count = 1, .reusable = true}}, SHIFT(12),
   [66] = {.entry = {.count = 1, .reusable = true}}, SHIFT(15),
