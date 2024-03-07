@@ -1,8 +1,9 @@
 module.exports = grammar({
   name: 'vento',
   externals: $ => [
-    $.code,
+    $._code,
   ],
+  extras: $ => [/\s/],
   rules: {
     template: $ => repeat(choice(
       $.tag,
@@ -20,11 +21,12 @@ module.exports = grammar({
 
     _expression: $ => choice(
       // "Solo keywords" are just code blocks
+      alias($.keyword2, $.code),
       alias($.keyword, $.code),
       alias($.close_keyword, $.keyword),
       seq(
         $.keyword,
-        $.code
+        alias($._code, $.code),
       ),
       $.comment,
     ),
@@ -32,12 +34,13 @@ module.exports = grammar({
     // General rule for keyword tags
     // It just tries to match the first word in a tag block,
     // plus any other special characters that might be present
-    keyword: $ => /[a-zA-Z>]+/,
-    close_keyword: $ => /\/[a-zA-Z]+/,
+    keyword: $ => /[a-z>][a-zA-Z]*? |if|for|include|set|import|export|layout|function/,
+    keyword2: $ => seq(/[a-zA-Z>\.\(\)\!_\?]/, $._code),
+    close_keyword: $ => /\/([a-zA-Z]+|if|for|include|set|import|export|layout|function)/,
 
     filter: $ => repeat1(seq(
       "|>",
-      $.code
+      alias($._code, $.code)
     )),
 
     comment: $ => /#[^#]+#/,

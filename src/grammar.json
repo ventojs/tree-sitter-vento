@@ -87,6 +87,15 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
+            "name": "keyword2"
+          },
+          "named": true,
+          "value": "code"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
             "name": "keyword"
           },
           "named": true,
@@ -109,8 +118,13 @@
               "name": "keyword"
             },
             {
-              "type": "SYMBOL",
-              "name": "code"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_code"
+              },
+              "named": true,
+              "value": "code"
             }
           ]
         },
@@ -122,11 +136,24 @@
     },
     "keyword": {
       "type": "PATTERN",
-      "value": "[a-zA-Z>]+"
+      "value": "[a-z>][a-zA-Z]*? |if|for|include|set|import|export|layout|function"
+    },
+    "keyword2": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[a-zA-Z>\\.\\(\\)\\!_\\?]"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_code"
+        }
+      ]
     },
     "close_keyword": {
       "type": "PATTERN",
-      "value": "\\/[a-zA-Z]+"
+      "value": "\\/([a-zA-Z]+|if|for|include|set|import|export|layout|function)"
     },
     "filter": {
       "type": "REPEAT1",
@@ -138,8 +165,13 @@
             "value": "|>"
           },
           {
-            "type": "SYMBOL",
-            "name": "code"
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_code"
+            },
+            "named": true,
+            "value": "code"
           }
         ]
       }
@@ -160,7 +192,7 @@
   "externals": [
     {
       "type": "SYMBOL",
-      "name": "code"
+      "name": "_code"
     }
   ],
   "inline": [],

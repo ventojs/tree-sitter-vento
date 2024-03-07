@@ -63,7 +63,6 @@ Comments
     (comment))
   (content)
   (tag
-    (keyword)
     (code))
   (content)
   (tag
@@ -154,7 +153,6 @@ Expressions
     (code))
   (content)
   (tag
-    (keyword)
     (code))
   (content)
   (tag
@@ -197,6 +195,8 @@ Expressions 2
 {{-> javascriptCode() }}
 {{> javascriptCode() -}}
 
+{{ JSON.parse({ hello: "world" }) }}
+
 ---
 
 (template
@@ -219,5 +219,8 @@ Expressions 2
   (content)
   (tag
     (keyword)
+    (code))
+  (content)
+  (tag
     (code))
   (content))
