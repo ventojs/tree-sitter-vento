@@ -27,15 +27,10 @@ bool tree_sitter_vento_external_scanner_scan(
 
   if (valid_symbols[CODE]) {
 
-    if (lexer->lookahead == '\0' || lexer->lookahead == '/') {
-      return false;
-    }
-
-    if (lexer->lookahead == '-') {
-      return false;
-    }
-
-    if (lexer->lookahead == '}') {
+    if (lexer->eof(lexer) ||
+        lexer->lookahead == '/' ||
+        lexer->lookahead == '-' ||
+        lexer->lookahead == '}') {
       return false;
     }
 
