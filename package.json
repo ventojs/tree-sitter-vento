@@ -13,19 +13,10 @@
     "nan": "^2.14.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.20.0"
+    "tree-sitter-cli": "0.24.6"
   },
   "scripts": {
-    "test": "tree-sitter generate && tree-sitter test"
-  },
-  "tree-sitter": [
-    {
-      "scope": "text.html.vto",
-      "file-types": [
-        "vto"
-      ],
-      "injections": "queries/injections.scm",
-      "injection-regex": "vto"
-    }
-  ]
+    "test": "tree-sitter generate && tree-sitter test",
+    "parse": "tree-sitter generate && tree-sitter parse ./corpus/broken_simple.vto --debug"
+  }
 }
