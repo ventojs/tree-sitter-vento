@@ -12,27 +12,10 @@ void tree_sitter_vento_external_scanner_destroy(void *payload) {}
 unsigned tree_sitter_vento_external_scanner_serialize( void *payload, char *buffer) { return 0; }
 void tree_sitter_vento_external_scanner_deserialize( void *payload, const char *buffer, unsigned length) {}
 
-bool is_trim_marker(char c) {
-  switch (c) {
-    case '-':
-      return true;
-    default:
-      return false;
-  };
-}
-
 void skip_whitespace(TSLexer *lexer) {
   while (iswspace(lexer->lookahead)) {
     lexer->advance(lexer, true);
   }
-}
-
-void skip(TSLexer *lexer) {
-  lexer->advance(lexer, true);
-}
-
-void advance(TSLexer *lexer) {
-  lexer->advance(lexer, false);
 }
 
 bool tree_sitter_vento_external_scanner_scan(
@@ -57,7 +40,7 @@ bool tree_sitter_vento_external_scanner_scan(
     }
 
     // We start in a code block, so we need to find the end of it
-    int depth = 1;
+    uint32_t depth = 1;
 
     while (depth > 0) {
       if (lexer->eof(lexer)) {
@@ -65,11 +48,11 @@ bool tree_sitter_vento_external_scanner_scan(
       }
 
       if (lexer->lookahead == '{') {
-        advance(lexer);
+        lexer->advance(lexer, false);
         depth++;
 
       } else if (lexer->lookahead == '}') {
-        advance(lexer);
+        lexer->advance(lexer, false);
 
         if (depth > 1) {
           lexer->mark_end(lexer);
@@ -78,17 +61,17 @@ bool tree_sitter_vento_external_scanner_scan(
 
       } else if (lexer->lookahead == '|') {
         lexer->mark_end(lexer);
-        advance(lexer);
+        lexer->advance(lexer, false);
 
         if (lexer->lookahead == '>') {
-          advance(lexer);
+          lexer->advance(lexer, false);
 
           lexer->result_symbol = CODE;
           return true;
         }
       } else {
-        const bool skip = iswspace(lexer->lookahead) || is_trim_marker(lexer->lookahead);
-        advance(lexer);
+        const bool skip = iswspace(lexer->lookahead) || lexer->lookahead == '-';
+        lexer->advance(lexer, false);
         if (!skip) {
           lexer->mark_end(lexer);
         }
