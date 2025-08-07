@@ -19,11 +19,6 @@ enum TokenType {
   TAG_START_DELIMITER_JAVASCRIPT_TRIM_WHITESPACE
 };
 
-typedef struct {
-  const char **keywords;
-  int count;
-} KeywordSet;
-
 void *tree_sitter_vento_external_scanner_create() { return NULL; }
 void tree_sitter_vento_external_scanner_destroy(void *payload) {}
 unsigned tree_sitter_vento_external_scanner_serialize( void *payload, char *buffer) { return 0; }
