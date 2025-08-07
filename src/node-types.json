@@ -376,7 +376,28 @@
   {
     "type": "for_tag_start",
     "named": true,
-    "fields": {},
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -387,10 +408,6 @@
         },
         {
           "type": "filter",
-          "named": true
-        },
-        {
-          "type": "identifier",
           "named": true
         }
       ]

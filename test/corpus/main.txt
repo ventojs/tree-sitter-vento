@@ -6,6 +6,8 @@ Variables
   <h1>Hello world!</h1>
   {{ hello }}
   {{ messsage }}
+  {{ expor }}
+  {{ "<h1>Hello, world!</h1>" |> safe }}
   {{ if a }}
     {{ a }}
   {{ /if }}
@@ -17,6 +19,8 @@ Variables
   (content)
   (tag (code))
   (tag (code))
+  (tag (code))
+  (tag (code) (filter (code)))
   (if_block
     (if_tag_start
       (code))
@@ -206,3 +210,50 @@ Test parens
   (tag
     (code))
   (content))
+
+====================
+For loops
+====================
+
+<ul>
+  {{ for value of [1, 2, 3] }}
+  <li>{{value}}</li>
+  {{ /for }}
+</ul>
+
+
+<ul>
+  {{ for key, value of [1, 2, 3] }}
+  <li data-index="{{ key }}">{{value}}</li>
+  {{ /for }}
+</ul>
+
+---
+
+(template
+  (content)
+  (for_block
+    (for_tag_start
+      value: (identifier)
+      (code))
+    (content)
+    (tag
+      (code))
+    (content)
+    (for_tag_end))
+  (content)
+  (for_block
+    (for_tag_start
+      key: (identifier)
+      value: (identifier)
+      (code))
+    (content)
+    (tag
+      (code))
+    (content)
+    (tag
+      (code))
+    (content)
+    (for_tag_end))
+  (content)
+)

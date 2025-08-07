@@ -1,3 +1,7 @@
+/**
+ * Shorthand for generating a `{{ tag }}` along with other content after the
+ * keyword.
+ */
 function tag ($, name, ...optional) {
   let tokens = [
     $._tag_start_delimiter,
@@ -16,13 +20,26 @@ module.exports = grammar({
   externals: $ => [
     $.code,
     $._parameter_default_value,
+
+    // TODO: Treating these as externals isn't pretty, but it's the first
+    // method I found to guarantee that leading whitespace is never counted as
+    // belonging to any sort of tag node.
+    //
+    // The boundaries of tags need to be accurate so that the
+    // `meta.embedded.line` and `meta.embedded.block` scopes are assigned
+    // correctly in editors.
+    //
+    // Also, from a correctness standpoint, whitespace is best to describe as
+    // being in a quantum state where it belongs to neither content nor tags —
+    // at least until the next opening tag tells Vento how to handle the
+    // previous whitespace.
     $._tag_start_delimiter_simple,
-    $._tag_start_delimiter_trim_whitespace
+    $._tag_start_delimiter_trim_whitespace,
+    $._tag_start_delimiter_javascript_simple,
+    $._tag_start_delimiter_javascript_trim_whitespace
   ],
   conflicts: $ => [
     [$.conditional_block]
-    // [$.else_if_block],
-    // [$.else_block]
   ],
   extras: _ => [/\s+/],
   rules: {
@@ -50,11 +67,16 @@ module.exports = grammar({
 
     content: _ => prec.right(repeat1(/[^\{]+|\{/)),
 
-    // This is a convoluted way to ensure that leading whitespace is never
-    // counted as belonging to a `tag` node.
     _tag_start_delimiter: $ => choice(
       alias($._tag_start_delimiter_simple, "{{"),
       alias($._tag_start_delimiter_trim_whitespace, "{{-")
+    ),
+
+    _tag_start_delimiter_javascript: $ => choice(
+      choice(
+        alias($._tag_start_delimiter_javascript_simple, "{{>"),
+        alias($._tag_start_delimiter_javascript_trim_whitespace, "{{->")
+      )
     ),
 
     _empty_tag: $ => seq(
@@ -69,11 +91,11 @@ module.exports = grammar({
       choice("}}", "-}}")
     ),
 
-    javascript_tag: $ => prec(20, seq(
-      choice("{{>", "{{->"),
+    javascript_tag: $ => seq(
+      $._tag_start_delimiter_javascript,
       $.code,
       choice("}}", "-}}")
-    )),
+    ),
 
     _expression: $ => prec.left(9, seq(
       $.code,
@@ -98,7 +120,7 @@ module.exports = grammar({
       $.code
     ),
 
-    if_tag_end: $ => prec(-1, tag($, "/if")),
+    if_tag_end: $ => tag($, "/if"),
 
     // TODO: Wrapping all conditional blocks in this node seems to prevent
     // precedence hell. Ideally we'd be able to make this `_conditional_block`
@@ -136,7 +158,14 @@ module.exports = grammar({
     for_tag_start: $ => tag($,
       "for",
       optional("await"),
-      $.identifier,
+      choice(
+        field('value', $.identifier),
+        seq(
+          field('key', $.identifier),
+          ",",
+          field('value', $.identifier)
+        )
+      ),
       "of",
       $._expression
     ),
@@ -147,14 +176,12 @@ module.exports = grammar({
     else_if_block: $ => prec.right(6, seq(
       $.else_if_tag,
       optional($.conditional_block)
-      // repeat($._any)
     )),
 
     else_tag: $ => tag($, "else"),
     else_block: $ => prec.right(6, seq(
       $.else_tag,
       optional($.conditional_block)
-      // field('conditional_block', repeat($._any))
     )),
 
     include_tag: $ => tag($,
