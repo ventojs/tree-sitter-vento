@@ -220,7 +220,8 @@ module.exports = grammar({
             ",",
             $.identifier
           )
-        )
+        ),
+        "}"
       )
     ),
 
