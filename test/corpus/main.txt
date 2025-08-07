@@ -15,18 +15,14 @@ Variables
 
 (template
   (content)
-  (tag
-    (code))
-  (tag
-    (code))
-  (tag
-    (keyword)
-    (code))
-  (tag
-    (code))
-  (tag
-    (keyword))
-  (content))
+  (tag (code))
+  (tag (code))
+  (if_block
+    (if_tag_start
+      (code))
+    (conditional_block (tag (code)))
+    (if_tag_end))
+(content))
 
 ====================
 Comments
@@ -37,7 +33,7 @@ Comments
   {{# This is a comment #}}
   {{# a comment #}}
   {{# comment #}}
-  
+
   <h1>Hello world!</h1>
 
   {{# life is pain comment #}}
@@ -49,19 +45,13 @@ Comments
 
 (template
   (content)
-  (tag
-    (comment))
-  (tag
-    (comment))
-  (tag
-    (comment))
+  (comment_tag (comment))
+  (comment_tag (comment))
+  (comment_tag (comment))
   (content)
-  (tag
-    (comment))
-  (tag
-    (code))
-  (tag
-    (comment))
+  (comment_tag (comment))
+  (tag (code))
+  (comment_tag (comment))
   (content))
 
 
@@ -71,44 +61,37 @@ Filters
 
 {{ test |> hello }}
 {{ test |> hello |> world }}
-{{ layout "hello" |> worldFilter }}
-{{ layout "hello" { title: "Yes"}}}
-{{ layout "hello" { title: "Yes"} }}
-{{ layout "hello" { title: "Yes"} |> worldFilter }}
-{{ layout "hello" { title: "Yes" } |> worldFilter |> happy }}
+{{ include "hello" |> worldFilter }}
+{{ include "hello" { title: "Yes" }}}
+{{ include "hello" { title: "Yes" } }}
+{{ include "hello" { title: "Yes"} |> worldFilter }}
+{{ include "hello" { title: "Yes" } |> worldFilter |> happy }}
 
 ---
 
 (template
   (tag
-    (keyword)
     (code)
     (filter
       (code)))
   (tag
-    (keyword)
     (code)
     (filter
       (code)
       (code)))
-  (tag
-    (keyword)
+  (include_tag
     (code)
     (filter
       (code)))
-  (tag
-    (keyword)
+  (include_tag
     (code))
-  (tag
-    (keyword)
+  (include_tag
     (code))
-  (tag
-    (keyword)
+  (include_tag
     (code)
     (filter
       (code)))
-  (tag
-    (keyword)
+  (include_tag
     (code)
     (filter
       (code)
@@ -124,87 +107,69 @@ Expressions
 {{ solo }}
 {{    b123.happy.hour()   }}
 {{ if test }}
-{{ if test |> hello }}
-{{ if test |> hello |> world }}
-{{ if test |> hello |> world |> happy }}
+  {{ test |> hello }}
+  {{ test |> hello |> world }}
+  {{ test |> hello |> world |> happy }}
 {{ /if }}
 
 ---
 
 (template
-  (tag
-    (keyword)
-    (code))
-  (tag
-    (code))
-  (tag
-    (code))
-  (tag
-    (keyword)
-    (code))
-  (tag
-    (keyword)
-    (code)
-    (filter
-      (code)))
-  (tag
-    (keyword)
-    (code)
-    (filter
+  (tag (code))
+  (tag (code))
+  (tag (code))
+  (if_block
+    (if_tag_start
       (code)
-      (code)))
-  (tag
-    (keyword)
-    (code)
-    (filter
-      (code)
-      (code)
-      (code)))
-  (tag
-    (keyword))
+    )
+    (conditional_block
+      (tag
+        (code)
+        (filter
+          (code)))
+      (tag
+        (code)
+        (filter
+          (code)
+          (code)))
+      (tag
+        (code)
+        (filter
+          (code)
+          (code)
+          (code)))
+    )
+    (if_tag_end)
+  )
   (content))
 
 ====================
 Expressions 2
 ====================
 
-{{ if test }}
 {{}}
 {{ }}
 {{> javascriptCode() }}
 {{-> javascriptCode() }}
 {{> javascriptCode() -}}
-
 {{ JSON.parse({ hello: "world" }) }}
 
 ---
 
 (template
-  (tag
-    (keyword)
-    (code))
   (tag)
   (tag)
-  (tag
-    (keyword)
-    (code))
-  (tag
-    (keyword)
-    (code))
-  (tag
-    (keyword)
-    (code))
-  (tag
-    (code))
+  (javascript_tag (code))
+  (javascript_tag (code))
+  (javascript_tag (code))
+  (tag (code))
   (content))
 
 ====================
 Stress Keywords
 ====================
 
-{{ if test }}
 {{ code }}
-{{ keyword code }}
 {{ keyword() code }}
 <h1>Hello!</h1>
 {{ Deno }}
@@ -214,12 +179,6 @@ Stress Keywords
 
 (template
   (tag
-    (keyword)
-    (code))
-  (tag
-    (code))
-  (tag
-    (keyword)
     (code))
   (tag
     (code))

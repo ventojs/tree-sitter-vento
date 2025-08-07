@@ -1,0 +1,38 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "vento",
+      "camelcase": "Vento",
+      "title": "Vento",
+      "scope": "source.vento",
+      "file-types": [
+        "vto"
+      ],
+      "injection-regex": "^vento$",
+      "class-name": "TreeSitterVento"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Vento grammar for Tree-sitter",
+    "authors": [
+      {
+        "name": "Matthew Taylor"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/ventojs/tree-sitter-vento"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true,
+    "zig": false
+  }
+}
