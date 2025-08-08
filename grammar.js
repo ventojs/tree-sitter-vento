@@ -37,7 +37,9 @@ module.exports = grammar({
     $._tag_start_delimiter_simple,
     $._tag_start_delimiter_trim_whitespace,
     $._tag_start_delimiter_javascript_simple,
-    $._tag_start_delimiter_javascript_trim_whitespace
+    $._tag_start_delimiter_javascript_trim_whitespace,
+    $._tag_start_delimiter_comment_simple,
+    $._tag_start_delimiter_comment_trim_whitespace
   ],
   conflicts: $ => [
     [$.conditional_block]
@@ -78,6 +80,11 @@ module.exports = grammar({
         alias($._tag_start_delimiter_javascript_simple, "{{>"),
         alias($._tag_start_delimiter_javascript_trim_whitespace, "{{->")
       )
+    ),
+
+    _tag_start_delimiter_comment: $ => choice(
+      alias($._tag_start_delimiter_comment_simple, "{{>"),
+      alias($._tag_start_delimiter_comment_trim_whitespace, "{{->")
     ),
 
     _empty_tag: $ => seq(
@@ -305,7 +312,7 @@ module.exports = grammar({
 
     identifier: () => /[A-Za-z_$][a-zA-Z0-9_$]*/,
     comment_tag: $ => seq(
-      choice("{{#", "{{#-"),
+      $._tag_start_delimiter_comment,
       alias(/[^#]*/, $.comment),
       choice("#}}", "-#}}")
     )

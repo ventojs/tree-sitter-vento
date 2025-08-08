@@ -2,7 +2,7 @@
 #include <wctype.h>
 #include <stdio.h>
 
-#define DEBUG 0
+#define DEBUG 1
 
 #if DEBUG == 1
 #define PRINTF(...) printf(__VA_ARGS__)
@@ -19,7 +19,9 @@ enum TokenType {
   TAG_START_DELIMITER_SIMPLE,
   TAG_START_DELIMITER_TRIM_WHITESPACE,
   TAG_START_DELIMITER_JAVASCRIPT,
-  TAG_START_DELIMITER_JAVASCRIPT_TRIM_WHITESPACE
+  TAG_START_DELIMITER_JAVASCRIPT_TRIM_WHITESPACE,
+  TAG_START_DELIMITER_COMMENT,
+  TAG_START_DELIMITER_COMMENT_TRIM_WHITESPACE
 };
 
 void *tree_sitter_vento_external_scanner_create() { return NULL; }
@@ -299,9 +301,7 @@ static bool scan_for_default_value(TSLexer *lexer, bool code_allowed) {
 //
 // This function accepts the `valid_symbols` table so that we can ensure the
 // matched kind of delimiter is valid in the current context.
-//
-// TODO: We don't currently handle `{{#` (for starting a comment), but we
-// probably should.
+// 
 static bool scan_for_tag_start_delimiter(
   TSLexer *lexer,
   const bool *valid_symbols
@@ -311,10 +311,30 @@ static bool scan_for_tag_start_delimiter(
   lexer->advance(lexer, false);
   if (lexer->lookahead != '{') return false;
   lexer->advance(lexer, false);
-  // Don't claim comment start syntax.
-  if (lexer->lookahead == '#') return false;
-
-  if (lexer->lookahead == '>') {
+  if (lexer->lookahead == '#') {
+    // We've got `{{#`.
+    lexer->advance(lexer, false);
+    if (lexer->lookahead == '-') {
+      // We've got `{{#-`.
+      if (valid_symbols[TAG_START_DELIMITER_COMMENT_TRIM_WHITESPACE]) {
+        lexer->advance(lexer, false);
+        lexer->mark_end(lexer);
+        PRINTF("Marking as {{#-\n");
+        lexer->result_symbol = TAG_START_DELIMITER_COMMENT_TRIM_WHITESPACE;
+      } else {
+        return false;
+      }
+    } else {
+      // We've got `{{#`.
+      if (valid_symbols[TAG_START_DELIMITER_COMMENT]) {
+        lexer->mark_end(lexer);
+        PRINTF("Marking as {{#\n");
+        lexer->result_symbol = TAG_START_DELIMITER_COMMENT;
+      } else {
+        return false;
+      }
+    }
+  } else if (lexer->lookahead == '>') {
     // We've got `{{>`. Anything after this will be treated as JS, even if
     // there's no space afterwards.
     if (valid_symbols[TAG_START_DELIMITER_JAVASCRIPT]) {
