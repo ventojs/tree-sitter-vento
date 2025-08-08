@@ -2,7 +2,7 @@
 #include <wctype.h>
 #include <stdio.h>
 
-#define DEBUG 1
+#define DEBUG 0
 
 #if DEBUG == 1
 #define PRINTF(...) printf(__VA_ARGS__)
@@ -301,7 +301,7 @@ static bool scan_for_default_value(TSLexer *lexer, bool code_allowed) {
 //
 // This function accepts the `valid_symbols` table so that we can ensure the
 // matched kind of delimiter is valid in the current context.
-// 
+//
 static bool scan_for_tag_start_delimiter(
   TSLexer *lexer,
   const bool *valid_symbols
