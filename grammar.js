@@ -19,6 +19,7 @@ module.exports = grammar({
   name: 'vento',
   externals: $ => [
     $.code,
+    $._raw_code,
     $._parameter_default_value,
 
     // TODO: Treating these as externals isn't pretty, but it's the first
@@ -93,7 +94,7 @@ module.exports = grammar({
 
     javascript_tag: $ => seq(
       $._tag_start_delimiter_javascript,
-      $.code,
+      alias($._raw_code, $.code),
       choice("}}", "-}}")
     ),
 

@@ -213,8 +213,13 @@
           "name": "_tag_start_delimiter_javascript"
         },
         {
-          "type": "SYMBOL",
-          "name": "code"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_raw_code"
+          },
+          "named": true,
+          "value": "code"
         },
         {
           "type": "CHOICE",
@@ -1491,6 +1496,10 @@
     {
       "type": "SYMBOL",
       "name": "code"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_raw_code"
     },
     {
       "type": "SYMBOL",

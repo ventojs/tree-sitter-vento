@@ -12,6 +12,9 @@
 
 enum TokenType {
   CODE,
+  // Like `CODE`, but skips the initial keyword check. Used on JavaScript tags
+  // (`{{>`).
+  RAW_CODE,
   PARAMETER_DEFAULT_VALUE,
   TAG_START_DELIMITER_SIMPLE,
   TAG_START_DELIMITER_TRIM_WHITESPACE,
@@ -367,8 +370,9 @@ bool tree_sitter_vento_external_scanner_scan(
 ) {
   skip_whitespace(lexer);
   PRINTF(
-    "In the external scanner with validity: %i %i %i %i %i %i\n",
+    "In the external scanner with validity: %i %i %i %i %i %i %i\n",
     valid_symbols[CODE],
+    valid_symbols[RAW_CODE],
     valid_symbols[PARAMETER_DEFAULT_VALUE],
     valid_symbols[TAG_START_DELIMITER_SIMPLE],
     valid_symbols[TAG_START_DELIMITER_TRIM_WHITESPACE],
@@ -399,8 +403,8 @@ bool tree_sitter_vento_external_scanner_scan(
   }
 
   // TODO: Extract into its own function?
-  if (valid_symbols[CODE]) {
-
+  if (valid_symbols[CODE] || valid_symbols[RAW_CODE]) {
+    int target_symbol = valid_symbols[CODE] ? CODE : RAW_CODE;
     if (lexer->eof(lexer) ||
         lexer->lookahead == '/' ||
         lexer->lookahead == '-' ||
@@ -408,12 +412,20 @@ bool tree_sitter_vento_external_scanner_scan(
       return false;
     }
 
-    if (iswalnum(lexer->lookahead)) {
+    if (iswalnum(lexer->lookahead) && valid_symbols[CODE]) {
       // Check if any keyword matches from the current position. If so, we want
       // this check to fail, because those keywords need to be handled as
       // anonymous nodes as part of the ordinary parsing process.
       if (matches_any_keyword(lexer, KEYWORDS)) {
-        return false;
+        if (valid_symbols[RAW_CODE]) {
+          // We can resume with the `RAW_CODE` check below if this fails…
+          lexer->mark_end(lexer);
+          target_symbol = RAW_CODE;
+        } else {
+          // …but if `RAW_CODE` isn't valid in this context, we must return
+          // `false`.
+          return false;
+        }
       }
     }
 
@@ -426,17 +438,18 @@ bool tree_sitter_vento_external_scanner_scan(
       }
 
       if (lexer->lookahead == '{') {
+        PRINTF("Encountered an opening brace at col %i; new depth will be %i\n", lexer->get_column(lexer), depth + 1);
         lexer->advance(lexer, false);
         depth++;
 
       } else if (lexer->lookahead == '}') {
+        PRINTF("Encountered a closing brace at col %i; new depth will be %i\n", lexer->get_column(lexer), depth - 1);
         lexer->advance(lexer, false);
 
         if (depth > 1) {
           lexer->mark_end(lexer);
         }
         depth--;
-
       } else if (lexer->lookahead == '|') {
         lexer->mark_end(lexer);
         lexer->advance(lexer, false);
@@ -444,7 +457,7 @@ bool tree_sitter_vento_external_scanner_scan(
         if (lexer->lookahead == '>') {
           PRINTF("Reached a filter, hence identified a code block\n");
           lexer->advance(lexer, false);
-          lexer->result_symbol = CODE;
+          lexer->result_symbol = target_symbol;
           return true;
         }
       } else {
@@ -457,7 +470,7 @@ bool tree_sitter_vento_external_scanner_scan(
 
       if (depth == 0) {
         PRINTF("Identified a code block\n");
-        lexer->result_symbol = CODE;
+        lexer->result_symbol = target_symbol;
         return true;
       }
     }
