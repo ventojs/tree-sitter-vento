@@ -83,8 +83,8 @@ module.exports = grammar({
     ),
 
     _tag_start_delimiter_comment: $ => choice(
-      alias($._tag_start_delimiter_comment_simple, "{{>"),
-      alias($._tag_start_delimiter_comment_trim_whitespace, "{{->")
+      alias($._tag_start_delimiter_comment_simple, "{{#"),
+      alias($._tag_start_delimiter_comment_trim_whitespace, "{{#-")
     ),
 
     _empty_tag: $ => seq(
