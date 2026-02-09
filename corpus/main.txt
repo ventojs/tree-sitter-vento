@@ -1,4 +1,48 @@
 ====================
+Front Matter
+====================
+
+---
+title: My Page
+date: 2024-01-01
+tags:
+  - vento
+  - template
+---
+
+<h1>Hello world!</h1>
+
+---
+
+(template
+  (front_matter
+    (front_matter_content))
+  (content))
+
+====================
+Front Matter with Content
+====================
+
+---
+layout: base.vto
+title: Hello World
+---
+
+<div>
+  {{ title }}
+</div>
+
+---
+
+(template
+  (front_matter
+    (front_matter_content))
+  (content)
+  (tag
+    (code))
+  (content))
+
+====================
 Variables
 ====================
 
@@ -37,7 +81,7 @@ Comments
   {{# This is a comment #}}
   {{# a comment #}}
   {{# comment #}}
-  
+
   <h1>Hello world!</h1>
 
   {{# life is pain comment #}}
@@ -246,4 +290,82 @@ Test parens
     (code))
   (tag
     (code))
+  (content))
+
+====================
+Keywords - Set, Layout, Echo, Slot, Default
+====================
+
+{{ set title = "Hello World" }}
+{{ layout "base.vto" }}
+{{ echo message }}
+{{ slot content }}
+{{ slot content }}
+  Default slot content
+{{ /slot }}
+{{ default value }}
+
+---
+
+(template
+  (tag
+    (keyword)
+    (code))
+  (tag
+    (keyword)
+    (code))
+  (tag
+    (keyword)
+    (code))
+  (tag
+    (keyword)
+    (code))
+  (tag
+    (keyword)
+    (code))
+  (content)
+  (tag
+    (keyword))
+  (tag
+    (keyword)
+    (code))
+  (content))
+
+====================
+For Loop with Of Keyword
+====================
+
+{{ for tag of tags }}
+  <span>{{ tag }}</span>
+{{ /for }}
+
+{{ for item of items }}
+  {{ item }}
+{{ /for }}
+
+---
+
+(template
+  (tag
+    (for_statement
+      (keyword)
+      (code)
+      (keyword)
+      (code)))
+  (content)
+  (tag
+    (code))
+  (tag
+    (keyword))
+  (tag
+    (for_statement
+      (keyword)
+      (code)
+      (keyword)
+      (code)))
+  (content)
+  (tag
+    (code))
+  (tag
+    (keyword))
   (content))

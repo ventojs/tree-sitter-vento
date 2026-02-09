@@ -1,19 +1,26 @@
 {
-  "name": "tree-sitter-vento",
-  "version": "0.20.0",
+  "name": "tree-sitter-better-vento",
+  "version": "0.21.0",
   "description": "Vento grammar for tree-sitter",
   "main": "bindings/node",
   "keywords": [
     "parser",
     "json"
   ],
-  "author": "Matthew Taylor",
+  "contributors": [
+    {
+      "name": "Matthew Taylor"
+    },
+    {
+      "name": "Bob Rockefeller"
+    }
+  ],
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.14.0"
+    "nan": "^2.25.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "0.24.6"
+    "tree-sitter-cli": "^0.26.5"
   },
   "scripts": {
     "test": "tree-sitter generate && tree-sitter test",
