@@ -1,50 +1,62 @@
 module.exports = grammar({
-  name: 'vento',
-  externals: $ => [
-    $._code,
-  ],
-  extras: $ => [/\s/],
+  name: "vento",
+  externals: ($) => [$._code, $._front_matter_content],
+  extras: ($) => [/\s/],
   rules: {
-    template: $ => repeat(choice(
-      $.content,
-      $.tag,
-    )),
+    template: ($) =>
+      seq(optional(prec(10, $.front_matter)), repeat(choice($.content, $.tag))),
 
     content: () => prec.right(repeat1(/[^\{]+|\{/)),
 
-    tag: $ => seq(
-      choice("{{", "{{-"),
-      optional($._expression),
-      optional($.filter),
-      choice("}}", "-}}")
-    ),
-
-    _expression: $ => choice(
-      // "Solo keywords" are just code blocks
-      alias($.code_snippet, $.code),
-      alias($.keyword, $.code),
-      alias($.close_keyword, $.keyword),
+    tag: ($) =>
       seq(
-        $.keyword,
+        choice("{{", "{{-"),
+        optional($._expression),
+        optional($.filter),
+        choice("}}", "-}}"),
+      ),
+
+    front_matter: ($) =>
+      prec(
+        10,
+        seq(
+          token(prec(10, "---")),
+          alias($._front_matter_content, $.front_matter_content),
+          token(prec(10, "---")),
+        ),
+      ),
+
+    _expression: ($) =>
+      choice(
+        $.comment,
+        alias($.close_keyword, $.keyword),
+        prec(5, $.for_statement),
+        prec(4, seq($.keyword, alias($._code, $.code))),
+        prec(4, $.keyword),
+        prec(1, alias($.code_snippet, $.code)),
+      ),
+
+    filter: ($) => repeat1(seq("|>", alias($._code, $.code))),
+
+    for_statement: ($) =>
+      seq(
+        alias("for", $.keyword),
+        alias($._code, $.code),
+        alias($.of_keyword, $.keyword),
         alias($._code, $.code),
       ),
-      $.comment,
-    ),
 
-    filter: $ => repeat1(seq(
-      "|>",
-      alias($._code, $.code)
-    )),
+    of_keyword: () => token("of"),
 
-    // General rule for keyword tags
-    // It just tries to match the first word in a tag block,
-    // plus any other special characters that might be present
-    keyword: () => /[a-z>][a-zA-Z]*? |if|for|include|set|import|export|layout|function/,
+    // Vento keywords
+    keyword: () =>
+      /if|else|for|from|include|set|import|export|layout|function|echo|slot|default/,
 
-    code_snippet: $ => seq(/[a-zA-Z>\.\(\)\!_\?]/, $._code),
+    code_snippet: ($) => seq(/[a-zA-Z>\.\(\)\!_\?]/, optional($._code)),
 
-    close_keyword: () => /\/([a-zA-Z]+|if|for|include|set|import|export|layout|function)/,
+    close_keyword: () =>
+      /\/(if|for|include|set|import|export|layout|function|echo|slot|default)/,
 
     comment: () => /#[^#]+#/,
-  }
+  },
 });
