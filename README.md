@@ -1,6 +1,6 @@
 <h1>
 <img align="left" width="40" src="https://raw.githubusercontent.com/ventojs/vento/main/docs/favicon.svg"></img>
-tree-sitter-vento
+tree-sitter-better-vento
 </h1>
 
 ## Features
