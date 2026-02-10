@@ -11,7 +11,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-tree-sitter = "~0.20"
+tree-sitter = "0.26"
 tree-sitter-vento = "0.21"
 ```
 

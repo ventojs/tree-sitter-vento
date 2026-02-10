@@ -8,5 +8,7 @@
   (keyword)
   (code))
 
+(code) @local.reference)
+
 ; References - any code that could reference variables
 (code) @local.reference
