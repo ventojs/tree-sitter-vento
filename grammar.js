@@ -50,7 +50,7 @@ module.exports = grammar({
 
     // Vento keywords
     keyword: () =>
-      /if|else|for|from|include|set|import|export|layout|function|echo|slot|default/,
+      /if|else|from|for|include|set|import|export|layout|function|echo|slot|default/,
 
     code_snippet: ($) => seq(/[a-zA-Z>\.\(\)\!_\?]/, optional($._code)),
 
