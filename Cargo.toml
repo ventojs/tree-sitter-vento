@@ -1,16 +1,15 @@
 [package]
 name = "tree-sitter-vento"
-description = "Vento grammar for tree-sitter"
-version = "0.21.0"
+description = "Vento grammar for tree-sitter",
+version = "0.20.0"
 authors = [
-    "Matthew Taylor",
-    "Bob Rockefeller"
+    "Matthew Taylor"
 ]
 license = "MIT"
 readme = "bindings/rust/README.md"
 keywords = ["vento", "template-engine", "parsing"]
 categories = ["parsing", "text-editors"]
-repository = "https://github.com/ventojs/tree-sitter-vento"
+repository = "https://github.com/wrapperup/tree-sitter-vento"
 edition = "2018"
 
 build = "bindings/rust/build.rs"
@@ -25,7 +24,7 @@ include = [
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = "0.26"
+tree-sitter = ">= 0.20"
 
 [build-dependencies]
 cc = "1.0"

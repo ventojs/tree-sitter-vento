@@ -11,8 +11,3 @@
   ] @punctuation.special)
 
 "|>" @operator
-
-(front_matter
-  [
-    "---"
-  ] @punctuation.delimiter)

@@ -25,40 +25,6 @@
     }
   },
   {
-    "type": "for_statement",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "code",
-          "named": true
-        },
-        {
-          "type": "keyword",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "front_matter",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "front_matter_content",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "tag",
     "named": true,
     "fields": {},
@@ -76,10 +42,6 @@
         },
         {
           "type": "filter",
-          "named": true
-        },
-        {
-          "type": "for_statement",
           "named": true
         },
         {
@@ -103,10 +65,6 @@
           "named": true
         },
         {
-          "type": "front_matter",
-          "named": true
-        },
-        {
           "type": "tag",
           "named": true
         }
@@ -114,19 +72,11 @@
     }
   },
   {
-    "type": "---",
-    "named": false
-  },
-  {
     "type": "-}}",
     "named": false
   },
   {
     "type": "comment",
-    "named": true
-  },
-  {
-    "type": "front_matter_content",
     "named": true
   },
   {
