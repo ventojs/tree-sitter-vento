@@ -1,0 +1,36 @@
+{
+  "grammars": [
+    {
+      "name": "vento",
+      "camel": "Vento",
+      "scope": "source.vento",
+      "path": ".",
+      "file-types": ["vto", "vento"],
+      "content-regex": "^---\\s*$",
+      "injection-regex": "^vento$",
+      "first-line-regex": null,
+      "external-files": ["src/scanner.c"],
+      "highlights": ["queries/highlights.scm"],
+      "injections": ["queries/injections.scm"],
+      "locals": ["queries/locals.scm"],
+      "tags": null,
+      "folds": null
+    }
+  ],
+  "metadata": {
+    "version": "0.21.0",
+    "license": "MIT",
+    "description": "Vento grammar for tree-sitter",
+    "authors": [
+      {
+        "name": "Matthew Taylor"
+      },
+      {
+        "name": "Bob Rockefeller"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/ventojs/tree-sitter-vento"
+    }
+  }
+}
