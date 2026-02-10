@@ -1,11 +1,13 @@
 {
-  "name": "tree-sitter-better-vento",
+  "name": "tree-sitter-vento",
   "version": "0.21.0",
   "description": "Vento grammar for tree-sitter",
   "main": "bindings/node",
   "keywords": [
     "parser",
-    "json"
+    "vento",
+    "template",
+    "tree-sitter"
   ],
   "contributors": [
     {
@@ -24,6 +26,6 @@
   },
   "scripts": {
     "test": "tree-sitter generate && tree-sitter test",
-    "parse": "tree-sitter generate && tree-sitter parse ./corpus/broken_simple.vto --debug"
+    "parse": "tree-sitter generate && tree-sitter parse ./examples/with-frontmatter.vto --debug"
   }
 }

@@ -18,7 +18,7 @@
     }
   ],
   "metadata": {
-    "version": "0.20.0",
+    "version": "0.21.0",
     "license": "MIT",
     "description": "Vento grammar for tree-sitter",
     "authors": [
@@ -30,7 +30,7 @@
       }
     ],
     "links": {
-      "repository": "https://github.com/wrapperup/tree-sitter-vento"
+      "repository": "https://github.com/ventojs/tree-sitter-vento"
     }
   }
 }
