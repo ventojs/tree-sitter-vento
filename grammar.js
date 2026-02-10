@@ -1,62 +1,50 @@
 module.exports = grammar({
-  name: "vento",
-  externals: ($) => [$._code, $._front_matter_content],
-  extras: ($) => [/\s/],
+  name: 'vento',
+  externals: $ => [
+    $._code,
+  ],
+  extras: $ => [/\s/],
   rules: {
-    template: ($) =>
-      seq(optional(prec(10, $.front_matter)), repeat(choice($.content, $.tag))),
+    template: $ => repeat(choice(
+      $.content,
+      $.tag,
+    )),
 
     content: () => prec.right(repeat1(/[^\{]+|\{/)),
 
-    tag: ($) =>
+    tag: $ => seq(
+      choice("{{", "{{-"),
+      optional($._expression),
+      optional($.filter),
+      choice("}}", "-}}")
+    ),
+
+    _expression: $ => choice(
+      // "Solo keywords" are just code blocks
+      alias($.code_snippet, $.code),
+      alias($.keyword, $.code),
+      alias($.close_keyword, $.keyword),
       seq(
-        choice("{{", "{{-"),
-        optional($._expression),
-        optional($.filter),
-        choice("}}", "-}}"),
-      ),
-
-    front_matter: ($) =>
-      prec(
-        10,
-        seq(
-          token(prec(10, "---")),
-          alias($._front_matter_content, $.front_matter_content),
-          token(prec(10, "---")),
-        ),
-      ),
-
-    _expression: ($) =>
-      choice(
-        $.comment,
-        alias($.close_keyword, $.keyword),
-        prec(5, $.for_statement),
-        prec(4, seq($.keyword, alias($._code, $.code))),
-        prec(4, $.keyword),
-        prec(1, alias($.code_snippet, $.code)),
-      ),
-
-    filter: ($) => repeat1(seq("|>", alias($._code, $.code))),
-
-    for_statement: ($) =>
-      seq(
-        alias("for", $.keyword),
-        alias($._code, $.code),
-        alias($.of_keyword, $.keyword),
+        $.keyword,
         alias($._code, $.code),
       ),
+      $.comment,
+    ),
 
-    of_keyword: () => token("of"),
+    filter: $ => repeat1(seq(
+      "|>",
+      alias($._code, $.code)
+    )),
 
-    // Vento keywords
-    keyword: () =>
-      /if|else|for|include|set|import|export|layout|function|echo|slot|default/,
+    // General rule for keyword tags
+    // It just tries to match the first word in a tag block,
+    // plus any other special characters that might be present
+    keyword: () => /[a-z>][a-zA-Z]*? |if|for|include|set|import|export|layout|function/,
 
-    code_snippet: ($) => seq(/[a-zA-Z>\.\(\)\!_\?]/, optional($._code)),
+    code_snippet: $ => seq(/[a-zA-Z>\.\(\)\!_\?]/, $._code),
 
-    close_keyword: () =>
-      /\/(if|for|include|set|import|export|layout|function|echo|slot|default)/,
+    close_keyword: () => /\/([a-zA-Z]+|if|for|include|set|import|export|layout|function)/,
 
     comment: () => /#[^#]+#/,
-  },
+  }
 });
