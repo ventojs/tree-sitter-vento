@@ -285,7 +285,7 @@
     },
     "keyword": {
       "type": "PATTERN",
-      "value": "if|else|from|for|include|set|import|export|layout|function|echo|slot|default"
+      "value": "if|else|for|include|set|import|export|layout|function|echo|slot|default"
     },
     "code_snippet": {
       "type": "SEQ",
