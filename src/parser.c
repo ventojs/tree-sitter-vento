@@ -1142,7 +1142,7 @@ TS_PUBLIC const TSLanguage *tree_sitter_vento(void) {
     .max_reserved_word_set_size = 0,
     .metadata = {
       .major_version = 0,
-      .minor_version = 20,
+      .minor_version = 21,
       .patch_version = 0,
     },
   };
