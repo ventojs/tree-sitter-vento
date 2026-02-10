@@ -8,3 +8,5 @@ build
 package-lock.json
 target
 Cargo.lock
+test.vto
+.envrc

@@ -1,0 +1,29 @@
+====================
+JavaScript (multiline)
+====================
+{{>
+  for (let i = 0; i < foo.length; i++) {
+    doSomethingWith(foo[i])
+  }
+}}
+
+---
+
+(template
+  (javascript_tag (code))
+  (content))
+
+====================
+JavaScript (multiline, trim whitespace)
+====================
+{{->
+  if (something) {
+    doSomethingWith(foo)
+  }
+-}}
+
+---
+
+(template
+  (javascript_tag (code))
+  (content))

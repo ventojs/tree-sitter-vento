@@ -1,0 +1,21 @@
+====================
+Imports
+====================
+
+{{ import fns from "./functions.vto" }}
+
+{{ import { fn, other } from "./functions.vto" }}
+
+---
+
+(template
+  (import_tag
+    (import_specifier
+      (identifier))
+    (code))
+  (import_tag
+    (import_specifier
+      (identifier)
+      (identifier))
+    (code))
+  (content))
