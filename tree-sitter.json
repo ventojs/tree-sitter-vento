@@ -6,11 +6,10 @@
       "camelcase": "Vento",
       "title": "Vento",
       "scope": "source.vento",
-      "file-types": [
-        "vto"
-      ],
+      "file-types": ["vto"],
       "injection-regex": "^vento$",
-      "class-name": "TreeSitterVento"
+      "class-name": "TreeSitterVento",
+      "highlights": "queries/highlights.scm"
     }
   ],
   "metadata": {

@@ -139,6 +139,9 @@ static const char *KEYWORDS[] = {
   "layout",
   "function",
   "fragment",
+  "echo",
+  "slot",
+  "default",
   NULL  // sentinel value to mark end of array
 };
 

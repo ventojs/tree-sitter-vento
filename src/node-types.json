@@ -31,6 +31,14 @@
           "named": true
         },
         {
+          "type": "default_block",
+          "named": true
+        },
+        {
+          "type": "echo_tag",
+          "named": true
+        },
+        {
           "type": "export_block",
           "named": true
         },
@@ -79,6 +87,10 @@
           "named": true
         },
         {
+          "type": "slot_block",
+          "named": true
+        },
+        {
           "type": "tag",
           "named": true
         }
@@ -89,6 +101,136 @@
     "type": "content",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "default_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "comment_tag",
+          "named": true
+        },
+        {
+          "type": "content",
+          "named": true
+        },
+        {
+          "type": "default_block",
+          "named": true
+        },
+        {
+          "type": "default_tag_end",
+          "named": true
+        },
+        {
+          "type": "default_tag_start",
+          "named": true
+        },
+        {
+          "type": "echo_tag",
+          "named": true
+        },
+        {
+          "type": "export_block",
+          "named": true
+        },
+        {
+          "type": "export_tag",
+          "named": true
+        },
+        {
+          "type": "for_block",
+          "named": true
+        },
+        {
+          "type": "fragment_block",
+          "named": true
+        },
+        {
+          "type": "function_block",
+          "named": true
+        },
+        {
+          "type": "if_block",
+          "named": true
+        },
+        {
+          "type": "import_tag",
+          "named": true
+        },
+        {
+          "type": "include_tag",
+          "named": true
+        },
+        {
+          "type": "javascript_tag",
+          "named": true
+        },
+        {
+          "type": "layout_block",
+          "named": true
+        },
+        {
+          "type": "set_block",
+          "named": true
+        },
+        {
+          "type": "set_tag",
+          "named": true
+        },
+        {
+          "type": "slot_block",
+          "named": true
+        },
+        {
+          "type": "tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "default_tag_end",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "default_tag_start",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "echo_tag",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "code",
+          "named": true
+        },
+        {
+          "type": "filter",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "else_block",
@@ -165,6 +307,14 @@
           "named": true
         },
         {
+          "type": "default_block",
+          "named": true
+        },
+        {
+          "type": "echo_tag",
+          "named": true
+        },
+        {
           "type": "export_block",
           "named": true
         },
@@ -218,6 +368,10 @@
         },
         {
           "type": "set_tag",
+          "named": true
+        },
+        {
+          "type": "slot_block",
           "named": true
         },
         {
@@ -306,6 +460,14 @@
           "named": true
         },
         {
+          "type": "default_block",
+          "named": true
+        },
+        {
+          "type": "echo_tag",
+          "named": true
+        },
+        {
           "type": "export_block",
           "named": true
         },
@@ -359,6 +521,10 @@
         },
         {
           "type": "set_tag",
+          "named": true
+        },
+        {
+          "type": "slot_block",
           "named": true
         },
         {
@@ -430,6 +596,14 @@
           "named": true
         },
         {
+          "type": "default_block",
+          "named": true
+        },
+        {
+          "type": "echo_tag",
+          "named": true
+        },
+        {
           "type": "export_block",
           "named": true
         },
@@ -486,6 +660,10 @@
           "named": true
         },
         {
+          "type": "slot_block",
+          "named": true
+        },
+        {
           "type": "tag",
           "named": true
         }
@@ -513,6 +691,25 @@
     }
   },
   {
+    "type": "front_matter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "front_matter_content",
+          "named": true
+        },
+        {
+          "type": "front_matter_delimiter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "function_block",
     "named": true,
     "fields": {},
@@ -526,6 +723,14 @@
         },
         {
           "type": "content",
+          "named": true
+        },
+        {
+          "type": "default_block",
+          "named": true
+        },
+        {
+          "type": "echo_tag",
           "named": true
         },
         {
@@ -582,6 +787,10 @@
         },
         {
           "type": "set_tag",
+          "named": true
+        },
+        {
+          "type": "slot_block",
           "named": true
         },
         {
@@ -751,6 +960,14 @@
           "named": true
         },
         {
+          "type": "default_block",
+          "named": true
+        },
+        {
+          "type": "echo_tag",
+          "named": true
+        },
+        {
           "type": "export_block",
           "named": true
         },
@@ -804,6 +1021,10 @@
         },
         {
           "type": "set_tag",
+          "named": true
+        },
+        {
+          "type": "slot_block",
           "named": true
         },
         {
@@ -895,6 +1116,14 @@
           "named": true
         },
         {
+          "type": "default_block",
+          "named": true
+        },
+        {
+          "type": "echo_tag",
+          "named": true
+        },
+        {
           "type": "export_block",
           "named": true
         },
@@ -948,6 +1177,10 @@
         },
         {
           "type": "set_tag_start",
+          "named": true
+        },
+        {
+          "type": "slot_block",
           "named": true
         },
         {
@@ -1005,32 +1238,12 @@
     }
   },
   {
-    "type": "tag",
+    "type": "slot_block",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "code",
-          "named": true
-        },
-        {
-          "type": "filter",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "template",
-    "named": true,
-    "root": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "comment_tag",
@@ -1038,6 +1251,14 @@
         },
         {
           "type": "content",
+          "named": true
+        },
+        {
+          "type": "default_block",
+          "named": true
+        },
+        {
+          "type": "echo_tag",
           "named": true
         },
         {
@@ -1089,11 +1310,154 @@
           "named": true
         },
         {
+          "type": "slot_block",
+          "named": true
+        },
+        {
+          "type": "slot_tag_end",
+          "named": true
+        },
+        {
+          "type": "slot_tag_start",
+          "named": true
+        },
+        {
           "type": "tag",
           "named": true
         }
       ]
     }
+  },
+  {
+    "type": "slot_tag_end",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "slot_tag_start",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "tag",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "code",
+          "named": true
+        },
+        {
+          "type": "filter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "template",
+    "named": true,
+    "root": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "comment_tag",
+          "named": true
+        },
+        {
+          "type": "content",
+          "named": true
+        },
+        {
+          "type": "default_block",
+          "named": true
+        },
+        {
+          "type": "echo_tag",
+          "named": true
+        },
+        {
+          "type": "export_block",
+          "named": true
+        },
+        {
+          "type": "export_tag",
+          "named": true
+        },
+        {
+          "type": "for_block",
+          "named": true
+        },
+        {
+          "type": "fragment_block",
+          "named": true
+        },
+        {
+          "type": "front_matter",
+          "named": true
+        },
+        {
+          "type": "function_block",
+          "named": true
+        },
+        {
+          "type": "if_block",
+          "named": true
+        },
+        {
+          "type": "import_tag",
+          "named": true
+        },
+        {
+          "type": "include_tag",
+          "named": true
+        },
+        {
+          "type": "javascript_tag",
+          "named": true
+        },
+        {
+          "type": "layout_block",
+          "named": true
+        },
+        {
+          "type": "set_block",
+          "named": true
+        },
+        {
+          "type": "set_tag",
+          "named": true
+        },
+        {
+          "type": "slot_block",
+          "named": true
+        },
+        {
+          "type": "tag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "\n",
+    "named": false
   },
   {
     "type": "#}}",
@@ -1117,6 +1481,10 @@
   },
   {
     "type": "-}}",
+    "named": false
+  },
+  {
+    "type": "/default",
     "named": false
   },
   {
@@ -1148,6 +1516,10 @@
     "named": false
   },
   {
+    "type": "/slot",
+    "named": false
+  },
+  {
     "type": "=",
     "named": false
   },
@@ -1168,6 +1540,14 @@
     "named": true
   },
   {
+    "type": "default",
+    "named": false
+  },
+  {
+    "type": "echo",
+    "named": false
+  },
+  {
     "type": "else",
     "named": false
   },
@@ -1186,6 +1566,14 @@
   {
     "type": "from",
     "named": false
+  },
+  {
+    "type": "front_matter_content",
+    "named": true
+  },
+  {
+    "type": "front_matter_delimiter",
+    "named": true
   },
   {
     "type": "function",
@@ -1220,11 +1608,23 @@
     "named": false
   },
   {
+    "type": "slot",
+    "named": false
+  },
+  {
     "type": "{",
     "named": false
   },
   {
     "type": "{{",
+    "named": false
+  },
+  {
+    "type": "{{#",
+    "named": false
+  },
+  {
+    "type": "{{#-",
     "named": false
   },
   {
