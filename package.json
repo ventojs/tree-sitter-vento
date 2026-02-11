@@ -5,7 +5,9 @@
   "main": "bindings/node",
   "keywords": [
     "parser",
-    "json"
+    "vento",
+    "template",
+    "tree-sitter"
   ],
   "author": "Matthew Taylor",
   "license": "MIT",
