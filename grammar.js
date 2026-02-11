@@ -2,11 +2,8 @@
  * Shorthand for generating a `{{ tag }}` along with other content after the
  * keyword.
  */
-function tag ($, name, ...optional) {
-  let tokens = [
-    $._tag_start_delimiter,
-    name
-  ];
+function tag($, name, ...optional) {
+  let tokens = [$._tag_start_delimiter, name];
 
   if (optional.length > 0) {
     tokens.push(...optional);
@@ -16,8 +13,8 @@ function tag ($, name, ...optional) {
 }
 
 module.exports = grammar({
-  name: 'vento',
-  externals: $ => [
+  name: "vento",
+  externals: ($) => [
     $.code,
     $._raw_code,
     $._parameter_default_value,
@@ -39,282 +36,256 @@ module.exports = grammar({
     $._tag_start_delimiter_javascript_simple,
     $._tag_start_delimiter_javascript_trim_whitespace,
     $._tag_start_delimiter_comment_simple,
-    $._tag_start_delimiter_comment_trim_whitespace
+    $._tag_start_delimiter_comment_trim_whitespace,
   ],
-  conflicts: $ => [
-    [$.conditional_block]
-  ],
-  extras: _ => [/\s+/],
+  conflicts: ($) => [[$.conditional_block]],
+  extras: (_) => [/\s+/],
   rules: {
-    template: $ => repeat($._any),
+    template: ($) => seq(optional($.front_matter), repeat($._any)),
 
-    _any: $ => choice(
-      $.content,
-      $.if_block,
-      $.for_block,
-      $.set_tag,
-      $.set_block,
-      $.layout_block,
-      $.javascript_tag,
-      $.include_tag,
-      $.comment_tag,
-      $.import_tag,
-      $.export_block,
-      $.export_tag,
-      $.function_block,
-      // Plugin, but easy to support.
-      $.fragment_block,
-      $.tag,
-      alias($._empty_tag, $.tag),
-    ),
+    front_matter: ($) =>
+      seq(
+        alias(token(prec(10, "---")), $.front_matter_delimiter),
+        "\n",
+        optional(
+          alias(
+            token(
+              prec(
+                -1,
+                repeat1(
+                  choice(
+                    /[^\n-]+\n/,
+                    /-[^\n-]+\n/,
+                    /--[^\n-]+\n/,
+                    /[^\n-]+/,
+                    /-[^\n-]+/,
+                    /--[^\n-]+/,
+                    /\n/,
+                  ),
+                ),
+              ),
+            ),
+            $.front_matter_content,
+          ),
+        ),
+        alias(token("---"), $.front_matter_delimiter),
+        optional("\n"),
+      ),
 
-    content: _ => prec.right(repeat1(/[^\{]+|\{/)),
-
-    _tag_start_delimiter: $ => choice(
-      alias($._tag_start_delimiter_simple, "{{"),
-      alias($._tag_start_delimiter_trim_whitespace, "{{-")
-    ),
-
-    _tag_start_delimiter_javascript: $ => choice(
+    _any: ($) =>
       choice(
-        alias($._tag_start_delimiter_javascript_simple, "{{>"),
-        alias($._tag_start_delimiter_javascript_trim_whitespace, "{{->")
-      )
-    ),
+        $.content,
+        $.if_block,
+        $.for_block,
+        $.set_tag,
+        $.set_block,
+        $.layout_block,
+        $.javascript_tag,
+        $.include_tag,
+        $.comment_tag,
+        $.import_tag,
+        $.export_block,
+        $.export_tag,
+        $.function_block,
+        $.echo_tag,
+        $.slot_block,
+        $.default_block,
+        // Plugin, but easy to support.
+        $.fragment_block,
+        $.tag,
+        alias($._empty_tag, $.tag),
+      ),
 
-    _tag_start_delimiter_comment: $ => choice(
-      alias($._tag_start_delimiter_comment_simple, "{{#"),
-      alias($._tag_start_delimiter_comment_trim_whitespace, "{{#-")
-    ),
+    content: (_) => prec.right(repeat1(/[^\{]+|\{/)),
 
-    _empty_tag: $ => seq(
-      $._tag_start_delimiter,
-      choice("}}", "-}}")
-    ),
+    _tag_start_delimiter: ($) =>
+      choice(
+        alias($._tag_start_delimiter_simple, "{{"),
+        alias($._tag_start_delimiter_trim_whitespace, "{{-"),
+      ),
 
-    tag: $ => seq(
-      $._tag_start_delimiter,
-      $._expression,
-      optional($.filter),
-      choice("}}", "-}}")
-    ),
+    _tag_start_delimiter_javascript: ($) =>
+      choice(
+        choice(
+          alias($._tag_start_delimiter_javascript_simple, "{{>"),
+          alias($._tag_start_delimiter_javascript_trim_whitespace, "{{->"),
+        ),
+      ),
 
-    javascript_tag: $ => seq(
-      $._tag_start_delimiter_javascript,
-      alias($._raw_code, $.code),
-      choice("}}", "-}}")
-    ),
+    _tag_start_delimiter_comment: ($) =>
+      choice(
+        alias($._tag_start_delimiter_comment_simple, "{{#"),
+        alias($._tag_start_delimiter_comment_trim_whitespace, "{{#-"),
+      ),
 
-    _expression: $ => prec.left(9, seq(
-      $.code,
-      optional($.filter)
-    )),
+    _empty_tag: ($) => seq($._tag_start_delimiter, choice("}}", "-}}")),
 
-    filter: $ => prec.left(10, repeat1(seq(
-      "|>",
-      $.code,
-    ))),
+    tag: ($) =>
+      seq(
+        $._tag_start_delimiter,
+        $._expression,
+        optional($.filter),
+        choice("}}", "-}}"),
+      ),
 
-    if_block: $ => seq(
-      $.if_tag_start,
-      optional($.conditional_block),
-      repeat($.else_if_block),
-      optional($.else_block),
-      $.if_tag_end
-    ),
+    javascript_tag: ($) =>
+      seq(
+        $._tag_start_delimiter_javascript,
+        alias($._raw_code, $.code),
+        choice("}}", "-}}"),
+      ),
 
-    if_tag_start: $ => tag($,
-      "if",
-      $.code
-    ),
+    _expression: ($) => prec.left(9, seq($.code, optional($.filter))),
 
-    if_tag_end: $ => tag($, "/if"),
+    filter: ($) => prec.left(10, repeat1(seq("|>", $.code))),
+
+    if_block: ($) =>
+      seq(
+        $.if_tag_start,
+        optional($.conditional_block),
+        repeat($.else_if_block),
+        optional($.else_block),
+        $.if_tag_end,
+      ),
+
+    if_tag_start: ($) => tag($, "if", $.code),
+
+    if_tag_end: ($) => tag($, "/if"),
 
     // TODO: Wrapping all conditional blocks in this node seems to prevent
     // precedence hell. Ideally we'd be able to make this `_conditional_block`
     // instead of putting it into the tree, but it stops working its magic when
     // we do that.
-    conditional_block: $ => repeat1($._any),
+    conditional_block: ($) => repeat1($._any),
 
-    set_tag: $ => tag($,
-      "set",
-      $.identifier,
-      "=",
-      $._expression
-    ),
+    set_tag: ($) => tag($, "set", $.identifier, "=", $._expression),
 
-    set_tag_start: $ => tag($,
-      "set",
-      $.identifier,
-      optional($.filter)
-    ),
+    set_tag_start: ($) => tag($, "set", $.identifier, optional($.filter)),
 
-    set_tag_end: $ => tag($, "/set"),
+    set_tag_end: ($) => tag($, "/set"),
 
-    set_block: $ => seq(
-      $.set_tag_start,
-      repeat($._any),
-      $.set_tag_end
-    ),
+    set_block: ($) => seq($.set_tag_start, repeat($._any), $.set_tag_end),
 
-    for_block: $ => seq(
-      $.for_tag_start,
-      repeat($._any),
-      $.for_tag_end
-    ),
+    for_block: ($) => seq($.for_tag_start, repeat($._any), $.for_tag_end),
 
-    for_tag_start: $ => tag($,
-      "for",
-      optional("await"),
-      choice(
-        field('value', $.identifier),
-        seq(
-          field('key', $.identifier),
-          ",",
-          field('value', $.identifier)
-        )
-      ),
-      "of",
-      $._expression
-    ),
-
-    for_tag_end: $ => tag($, "/for"),
-
-    else_if_tag: $ => tag($, "else", "if", $.code),
-    else_if_block: $ => prec.right(6, seq(
-      $.else_if_tag,
-      optional($.conditional_block)
-    )),
-
-    else_tag: $ => tag($, "else"),
-    else_block: $ => prec.right(6, seq(
-      $.else_tag,
-      optional($.conditional_block)
-    )),
-
-    include_tag: $ => tag($,
-      "include",
-      // TODO: Separation of string and object is possibly not syntactically
-      // valid in JS, as in the following example from the Vento web site:
-      //
-      // {{ include "./filename.vto" { name: "Óscar" } }}
-      //
-      // If so, we can put them in separate `code` nodes (and therefore
-      // separate injections) via a special scanner rule.
-      $.code,
-      optional($.filter)
-    ),
-
-    layout_tag_start: $ => tag($,
-      "layout",
-      $._expression
-    ),
-
-    layout_tag_end: $ => tag($, "/layout"),
-
-    layout_block: $ => seq(
-      $.layout_tag_start,
-      repeat($._any),
-      $.layout_tag_end
-    ),
-
-    import_specifier: $ => choice(
-      $.identifier,
-      seq(
-        "{",
-        $.identifier,
-        repeat(
-          seq(
-            ",",
-            $.identifier
-          )
+    for_tag_start: ($) =>
+      tag(
+        $,
+        "for",
+        optional("await"),
+        choice(
+          field("value", $.identifier),
+          seq(field("key", $.identifier), ",", field("value", $.identifier)),
         ),
-        "}"
-      )
-    ),
-
-    import_tag: $ => tag($,
-      "import",
-      $.import_specifier,
-      "from",
-      $.code
-    ),
-
-    export_tag: $ => tag($,
-      "export",
-      $.identifier,
-      "=",
-      $._expression
-    ),
-
-    export_tag_start: $ => tag($,
-      "export",
-      $.identifier,
-      optional($.filter)
-    ),
-
-    export_tag_end: $ => tag($, "/export"),
-
-    export_block: $ => seq(
-      $.export_tag_start,
-      repeat($._any),
-      $.export_tag_end
-    ),
-
-    parameter: $ => choice(
-      field('name', $.identifier),
-      seq(
-        field('name', $.identifier),
-        "=",
-        field('value', alias($._parameter_default_value, $.code))
-      )
-    ),
-
-    parameters: $ => seq(
-      "(",
-      optional(
-        seq(
-          $.parameter,
-          repeat(seq(",", $.parameter))
-        )
+        "of",
+        $._expression,
       ),
-      ")"
-    ),
 
-    function_tag_start: $ => tag($,
-      optional("export"),
-      optional("async"),
-      "function",
-      $.identifier,
-      optional($.parameters)
-    ),
+    for_tag_end: ($) => tag($, "/for"),
 
-    function_tag_end: $ => tag($, "/function"),
+    else_if_tag: ($) => tag($, "else", "if", $.code),
+    else_if_block: ($) =>
+      prec.right(6, seq($.else_if_tag, optional($.conditional_block))),
 
-    function_block: $ => seq(
-      $.function_tag_start,
-      repeat($._any),
-      $.function_tag_end
-    ),
+    else_tag: ($) => tag($, "else"),
+    else_block: ($) =>
+      prec.right(6, seq($.else_tag, optional($.conditional_block))),
 
-    fragment_tag_start: $ => tag($,
-      "fragment",
-      $.identifier
-    ),
+    include_tag: ($) =>
+      tag(
+        $,
+        "include",
+        // TODO: Separation of string and object is possibly not syntactically
+        // valid in JS, as in the following example from the Vento web site:
+        //
+        // {{ include "./filename.vto" { name: "Óscar" } }}
+        //
+        // If so, we can put them in separate `code` nodes (and therefore
+        // separate injections) via a special scanner rule.
+        $.code,
+        optional($.filter),
+      ),
 
-    fragment_tag_end: $ => tag($, "/fragment"),
+    layout_tag_start: ($) => tag($, "layout", $._expression),
 
-    fragment_block: $ => seq(
-      $.fragment_tag_start,
-      repeat($._any),
-      $.fragment_tag_end
-    ),
+    layout_tag_end: ($) => tag($, "/layout"),
+
+    layout_block: ($) =>
+      seq($.layout_tag_start, repeat($._any), $.layout_tag_end),
+
+    import_specifier: ($) =>
+      choice(
+        $.identifier,
+        seq("{", $.identifier, repeat(seq(",", $.identifier)), "}"),
+      ),
+
+    import_tag: ($) => tag($, "import", $.import_specifier, "from", $.code),
+
+    export_tag: ($) => tag($, "export", $.identifier, "=", $._expression),
+
+    export_tag_start: ($) => tag($, "export", $.identifier, optional($.filter)),
+
+    export_tag_end: ($) => tag($, "/export"),
+
+    export_block: ($) =>
+      seq($.export_tag_start, repeat($._any), $.export_tag_end),
+
+    parameter: ($) =>
+      choice(
+        field("name", $.identifier),
+        seq(
+          field("name", $.identifier),
+          "=",
+          field("value", alias($._parameter_default_value, $.code)),
+        ),
+      ),
+
+    parameters: ($) =>
+      seq("(", optional(seq($.parameter, repeat(seq(",", $.parameter)))), ")"),
+
+    function_tag_start: ($) =>
+      tag(
+        $,
+        optional("export"),
+        optional("async"),
+        "function",
+        $.identifier,
+        optional($.parameters),
+      ),
+
+    function_tag_end: ($) => tag($, "/function"),
+
+    function_block: ($) =>
+      seq($.function_tag_start, repeat($._any), $.function_tag_end),
+
+    fragment_tag_start: ($) => tag($, "fragment", $.identifier),
+
+    fragment_tag_end: ($) => tag($, "/fragment"),
+
+    fragment_block: ($) =>
+      seq($.fragment_tag_start, repeat($._any), $.fragment_tag_end),
+
+    echo_tag: ($) => tag($, "echo", $._expression),
+
+    slot_tag_start: ($) => tag($, "slot", $.identifier),
+
+    slot_tag_end: ($) => tag($, "/slot"),
+
+    slot_block: ($) => seq($.slot_tag_start, repeat($._any), $.slot_tag_end),
+
+    default_tag_start: ($) => tag($, "default", $.identifier),
+
+    default_tag_end: ($) => tag($, "/default"),
+
+    default_block: ($) =>
+      seq($.default_tag_start, repeat($._any), $.default_tag_end),
 
     identifier: () => /[A-Za-z_$][a-zA-Z0-9_$]*/,
-    comment_tag: $ => seq(
-      $._tag_start_delimiter_comment,
-      alias(/[^#]*/, $.comment),
-      choice("#}}", "-#}}")
-    )
-  }
+    comment_tag: ($) =>
+      seq(
+        $._tag_start_delimiter_comment,
+        alias(/[^#]*/, $.comment),
+        choice("#}}", "-#}}"),
+      ),
+  },
 });

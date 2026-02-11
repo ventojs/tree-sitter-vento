@@ -1,4 +1,52 @@
 ====================
+Front Matter
+====================
+
+---
+title: My Page
+date: 2024-01-01
+tags:
+  - vento
+  - template
+---
+
+<h1>Hello world!</h1>
+
+---
+
+(template
+  (front_matter
+    (front_matter_delimiter)
+    (front_matter_content)
+    (front_matter_delimiter))
+  (content))
+
+====================
+Front Matter with Content
+====================
+
+---
+layout: base.vto
+title: Hello World
+---
+
+<div>
+  {{ title }}
+</div>
+
+---
+
+(template
+  (front_matter
+    (front_matter_delimiter)
+    (front_matter_content)
+    (front_matter_delimiter))
+  (content)
+  (tag
+    (code))
+  (content))
+
+====================
 Variables
 ====================
 
@@ -17,16 +65,24 @@ Variables
 
 (template
   (content)
-  (tag (code))
-  (tag (code))
-  (tag (code))
-  (tag (code) (filter (code)))
+  (tag
+    (code))
+  (tag
+    (code))
+  (tag
+    (code))
+  (tag
+    (code)
+    (filter
+      (code)))
   (if_block
     (if_tag_start
       (code))
-    (conditional_block (tag (code)))
+    (conditional_block
+      (tag
+        (code)))
     (if_tag_end))
-(content))
+  (content))
 
 ====================
 Comments
@@ -49,15 +105,20 @@ Comments
 
 (template
   (content)
-  (comment_tag (comment))
-  (comment_tag (comment))
-  (comment_tag (comment))
+  (comment_tag
+    (comment))
+  (comment_tag
+    (comment))
+  (comment_tag
+    (comment))
   (content)
-  (comment_tag (comment))
-  (tag (code))
-  (comment_tag (comment))
+  (comment_tag
+    (comment))
+  (tag
+    (code))
+  (comment_tag
+    (comment))
   (content))
-
 
 ====================
 Filters
@@ -102,7 +163,6 @@ Filters
       (code)))
   (content))
 
-
 ====================
 Expressions
 ====================
@@ -119,13 +179,15 @@ Expressions
 ---
 
 (template
-  (tag (code))
-  (tag (code))
-  (tag (code))
+  (tag
+    (code))
+  (tag
+    (code))
+  (tag
+    (code))
   (if_block
     (if_tag_start
-      (code)
-    )
+      (code))
     (conditional_block
       (tag
         (code)
@@ -141,10 +203,8 @@ Expressions
         (filter
           (code)
           (code)
-          (code)))
-    )
-    (if_tag_end)
-  )
+          (code))))
+    (if_tag_end))
   (content))
 
 ====================
@@ -163,10 +223,14 @@ Expressions 2
 (template
   (tag)
   (tag)
-  (javascript_tag (code))
-  (javascript_tag (code))
-  (javascript_tag (code))
-  (tag (code))
+  (javascript_tag
+    (code))
+  (javascript_tag
+    (code))
+  (javascript_tag
+    (code))
+  (tag
+    (code))
   (content))
 
 ====================
@@ -209,6 +273,100 @@ Test parens
     (code))
   (tag
     (code))
+  (content))
+
+====================
+Echo, Slot, and Default Keywords
+====================
+
+{{ echo message }}
+{{ slot content }}
+Default content here
+{{ /slot }}
+{{ default fallback }}
+Fallback content
+{{ /default }}
+---
+
+(template
+  (echo_tag
+    (code))
+  (slot_block
+    (slot_tag_start
+      (identifier))
+    (content)
+    (slot_tag_end))
+  (default_block
+    (default_tag_start
+      (identifier))
+    (content)
+    (default_tag_end)))
+
+====================
+Mixed Keywords in Complex Template
+====================
+
+{{ set user = "Alice" }}
+{{ if user }}
+  {{ slot header }}
+    <h1>Welcome {{ user }}</h1>
+  {{ /slot }}
+
+  {{ echo user }}
+
+  {{ default content }}
+    <p>Default content for {{ user }}</p>
+  {{ /default }}
+
+  {{ for i of [1, 2, 3] }}
+    {{ set item }}Item {{ i }}{{ /set }}
+    {{ echo item }}
+  {{ /for }}
+{{ /if }}
+
+---
+
+(template
+  (set_tag
+    (identifier)
+    (code))
+  (if_block
+    (if_tag_start
+      (code))
+    (conditional_block
+      (slot_block
+        (slot_tag_start
+          (identifier))
+        (content)
+        (tag
+          (code))
+        (content)
+        (slot_tag_end))
+      (echo_tag
+        (code))
+      (default_block
+        (default_tag_start
+          (identifier))
+        (content)
+        (tag
+          (code))
+        (content)
+        (default_tag_end))
+      (for_block
+        (for_tag_start
+          (identifier)
+          (code))
+        (set_block
+          (set_tag_start
+            (identifier))
+          (content)
+          (tag
+            (code))
+          (set_tag_end))
+        (echo_tag
+          (code))
+        (for_tag_end)))
+    (if_tag_end))
   (content))
 
 ====================
@@ -255,5 +413,4 @@ For loops
       (code))
     (content)
     (for_tag_end))
-  (content)
-)
+  (content))

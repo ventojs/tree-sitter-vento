@@ -1,0 +1,89 @@
+---
+title: New Vento Keywords Test
+description: Testing echo, slot, and default keywords
+author: Test Suite
+tags:
+  - vento
+  - keywords
+  - testing
+---
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ title }}</title>
+</head>
+<body>
+  <h1>Vento New Keywords Test</h1>
+
+  <!-- Echo tag - outputs expressions -->
+  {{ echo "Hello, World!" }}
+  {{ echo title }}
+  {{ echo description }}
+
+  <!-- Slot blocks - define slots for content -->
+  {{ slot header }}
+    <header>
+      <h2>Default Header Content</h2>
+    </header>
+  {{ /slot }}
+
+  {{ slot content }}
+    <main>
+      <p>Default main content</p>
+    </main>
+  {{ /slot }}
+
+  {{ slot footer }}
+    <footer>Default Footer</footer>
+  {{ /slot }}
+
+  <!-- Default blocks - provide fallback content -->
+  {{ default sidebar }}
+    <aside>
+      <h3>Default Sidebar</h3>
+      <p>Sidebar content goes here</p>
+    </aside>
+  {{ /default }}
+
+  {{ default navigation }}
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+    </nav>
+  {{ /default }}
+
+  <!-- Complex example combining keywords -->
+  {{ set userName = "Alice" }}
+  
+  {{ if userName }}
+    {{ slot userSection }}
+      <div class="user-section">
+        {{ echo userName }}
+        
+        {{ default userBio }}
+          <p>No bio available for {{ userName }}</p>
+        {{ /default }}
+      </div>
+    {{ /slot }}
+  {{ /if }}
+
+  <!-- For loop with slots -->
+  {{ for item of ["Apple", "Banana", "Orange"] }}
+    {{ slot item-{{ item }} }}
+      <div class="item">{{ echo item }}</div>
+    {{ /slot }}
+  {{ /for }}
+
+  <!-- Function with echo -->
+  {{ function greet(name) }}
+    {{ echo "Hello, " + name + "!" }}
+  {{ /function }}
+
+  {{ set greeting = greet("Vento") }}
+  {{ echo greeting }}
+
+</body>
+</html>
