@@ -1,0 +1,114 @@
+---
+title: Complete Vento Keyword Examples
+description: Demonstrates all supported Vento keywords
+author: Documentation
+tags:
+  - vento
+  - examples
+  - keywords
+---
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ title }}</title>
+</head>
+<body>
+  <h1>Vento Keyword Examples</h1>
+
+  <!-- Set variable -->
+  {{ set greeting = "Hello, World!" }}
+  <p>{{ greeting }}</p>
+
+  <!-- Set block -->
+  {{ set pageTitle }}
+    <h2>Page Title from Block</h2>
+  {{ /set }}
+  {{ pageTitle }}
+
+  <!-- If/Else conditionals -->
+  {{ if author }}
+    <p>Author: {{ author }}</p>
+  {{ else }}
+    <p>No author specified</p>
+  {{ /if }}
+
+  <!-- For loops -->
+  {{ for tag of tags }}
+    <span class="tag">{{ tag }}</span>
+  {{ /for }}
+
+  <!-- For loop with key-value -->
+  {{ for key, value of { a: 1, b: 2 } }}
+    <p>{{ key }}: {{ value }}</p>
+  {{ /for }}
+
+  <!-- Echo tag -->
+  {{ echo description }}
+
+  <!-- Layout block -->
+  {{ layout "base.vto" }}
+    <div class="content">
+      Content inside layout
+    </div>
+  {{ /layout }}
+
+  <!-- Slot blocks -->
+  {{ slot header }}
+    <header>Default Header</header>
+  {{ /slot }}
+
+  {{ slot content }}
+    <main>Default Content</main>
+  {{ /slot }}
+
+  <!-- Default block -->
+  {{ default sidebar }}
+    <aside>Default Sidebar</aside>
+  {{ /default }}
+
+  <!-- Include tag -->
+  {{ include "partials/footer.vto" }}
+
+  <!-- Import/Export -->
+  {{ import { helper } from "./utils.vto" }}
+  {{ export title = "Exported Title" }}
+
+  {{ export description }}
+    This is an exported description block
+  {{ /export }}
+
+  <!-- Function blocks -->
+  {{ function greet(name) }}
+    <p>Hello, {{ name }}!</p>
+  {{ /function }}
+
+  {{ greet("Vento") }}
+
+  <!-- Async function -->
+  {{ async function fetchData() }}
+    {{ echo "Loading data..." }}
+  {{ /function }}
+
+  <!-- Fragment block (plugin) -->
+  {{ fragment myFragment }}
+    <div class="fragment">
+      Fragment content
+    </div>
+  {{ /fragment }}
+
+  <!-- JavaScript tag -->
+  {{> const now = new Date() }}
+  <p>Current time: {{ now }}</p>
+
+  <!-- Comment tag -->
+  {{# This is a comment and won't be rendered #}}
+
+  <!-- Expression with filter -->
+  {{ "<script>alert('xss')</script>" |> safe }}
+
+  <!-- Multiple filters -->
+  {{ title |> uppercase |> trim }}
+
+</body>
+</html>

@@ -1,11 +1,13 @@
 {
   "name": "tree-sitter-vento",
-  "version": "0.20.0",
+  "version": "0.21.0",
   "description": "Vento grammar for tree-sitter",
   "main": "bindings/node",
   "keywords": [
     "parser",
-    "json"
+    "vento",
+    "template",
+    "tree-sitter"
   ],
   "author": "Matthew Taylor",
   "license": "MIT",
