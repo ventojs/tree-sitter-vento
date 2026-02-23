@@ -88,3 +88,6 @@
 
 ; Code blocks (disable highlighting to allow injection)
 (code) @none
+
+; Filter functions (must come after the general code rule to override it)
+(filter (code) @function)
