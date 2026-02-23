@@ -86,5 +86,8 @@
 ; Identifiers
 (identifier) @variable
 
+; Filter functions
+(filter (code) @function)
+
 ; Code blocks (disable highlighting to allow injection)
 (code) @none
